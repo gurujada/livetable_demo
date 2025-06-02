@@ -1,0 +1,106 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@source "../css";
+@source "../js";
+@source "../../lib/demo_web";
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+@source "../../../live_table/lib";
+
+@import "../../../live_table/priv/static/live-table.css";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* daisyUI theme plugin. You can update this file by fetching the latest version with:
+  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
+  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(22% 0.022 240);
+  --color-base-200: oklch(18% 0.020 240);
+  --color-base-300: oklch(14% 0.018 240);
+  --color-base-content: oklch(95% 0.025 240);
+  --color-primary: oklch(65% 0.18 240);
+  --color-primary-content: oklch(15% 0.025 240);
+  --color-secondary: oklch(60% 0.16 260);
+  --color-secondary-content: oklch(15% 0.025 260);
+  --color-accent: oklch(70% 0.15 200);
+  --color-accent-content: oklch(15% 0.025 200);
+  --color-neutral: oklch(25% 0.025 240);
+  --color-neutral-content: oklch(90% 0.025 240);
+  --color-info: oklch(68% 0.16 220);
+  --color-info-content: oklch(15% 0.025 220);
+  --color-success: oklch(65% 0.14 140);
+  --color-success-content: oklch(15% 0.025 140);
+  --color-warning: oklch(75% 0.16 80);
+  --color-warning-content: oklch(15% 0.025 80);
+  --color-error: oklch(65% 0.20 20);
+  --color-error-content: oklch(15% 0.025 20);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(96% 0.008 240);
+  --color-base-300: oklch(92% 0.012 240);
+  --color-base-content: oklch(15% 0.025 240);
+  --color-primary: oklch(55% 0.18 240);
+  --color-primary-content: oklch(98% 0.008 240);
+  --color-secondary: oklch(50% 0.16 260);
+  --color-secondary-content: oklch(98% 0.008 260);
+  --color-accent: oklch(60% 0.15 200);
+  --color-accent-content: oklch(98% 0.008 200);
+  --color-neutral: oklch(35% 0.025 240);
+  --color-neutral-content: oklch(98% 0.008 240);
+  --color-info: oklch(58% 0.16 220);
+  --color-info-content: oklch(98% 0.008 220);
+  --color-success: oklch(55% 0.14 140);
+  --color-success-content: oklch(98% 0.008 140);
+  --color-warning: oklch(65% 0.16 80);
+  --color-warning-content: oklch(98% 0.008 80);
+  --color-error: oklch(55% 0.20 20);
+  --color-error-content: oklch(98% 0.008 20);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session] { display: contents }
+
+/* This file is for your main application CSS */
