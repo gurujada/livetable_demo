@@ -5,7 +5,7 @@ defmodule Demo.Seeds.Products do
   def run do
 
     batch_size = 1000
-    total_products = 1000
+    total_products = 1000000
     max_concurrency = 4
 
     categories = create_categories()

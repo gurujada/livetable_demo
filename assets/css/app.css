@@ -10,9 +10,12 @@
    The heroicons installation itself is managed by your mix.exs */
 @plugin "../vendor/heroicons";
 
-@source "../../../live_table/lib";
+/* @source "../../../live_table/lib";  for use in local */
+/* @import "../../../live_table/priv/static/live-table.css";  for use in local */
 
-@import "../../../live_table/priv/static/live-table.css";
+@source "../../deps/live_table/lib"; /* for use in production */
+@import "../../deps/live_table/priv/static/live-table.css"; /* for use in production */
+
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 /* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:

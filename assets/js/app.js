@@ -24,7 +24,9 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 
-import hooks_default from "../../../live_table/priv/static/live-table.js";
+// import hooks_default from "../../../live_table/priv/static/live-table.js"; // for use in local
+
+import hooks_default from "../../deps/live_table/priv/static/live-table.js"; // for use in production
 
 const csrfToken = document
   .querySelector("meta[name='csrf-token']")

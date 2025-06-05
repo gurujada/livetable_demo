@@ -12,20 +12,50 @@
     </script>
     <script>
       (() => {
+        const THEME_KEY = "phx:theme";
+        const DEFAULT_THEME = "light";
+
         const setTheme = (theme) => {
-          if (theme === "system") {
-            localStorage.removeItem("phx:theme");
-            document.documentElement.removeAttribute("data-theme");
-          } else {
-            localStorage.setItem("phx:theme", theme);
-            document.documentElement.setAttribute("data-theme", theme);
-          }
+          // Validate theme
+          const validTheme = ["light", "dark"].includes(theme) ? theme : DEFAULT_THEME;
+          
+          // Save to localStorage
+          localStorage.setItem(THEME_KEY, validTheme);
+          
+          // Apply to DOM
+          document.documentElement.setAttribute("data-theme", validTheme);
+          
+          return validTheme;
         };
-        if (!document.documentElement.hasAttribute("data-theme")) {
-          setTheme(localStorage.getItem("phx:theme") || "system");
+
+        const getCurrentTheme = () => {
+          return localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
+        };
+
+        const initializeTheme = () => {
+          const savedTheme = getCurrentTheme();
+          setTheme(savedTheme);
+        };
+
+        // Event listeners
+        window.addEventListener("phx:set-theme", ({ detail: { theme } }) => {
+          setTheme(theme);
+        });
+
+        // Handle localStorage changes from other tabs
+        window.addEventListener("storage", (e) => {
+          if (e.key === THEME_KEY) {
+            const newTheme = e.newValue || DEFAULT_THEME;
+            setTheme(newTheme);
+          }
+        });
+
+        // Initialize theme on page load
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initializeTheme);
+        } else {
+          initializeTheme();
         }
-        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
-        window.addEventListener("phx:set-theme", ({ detail: { theme } }) => setTheme(theme));
       })();
     </script>
   </head>

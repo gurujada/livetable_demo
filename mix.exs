@@ -63,8 +63,9 @@ defmodule Demo.MixProject do
       {:oban_web, "~> 2.11"},
       {:igniter, "~> 0.5", only: [:dev]},
       # For use in local
-      {:live_table, path: "../live_table", override: true},
-      # {:live_table, github: "gurujada/live_table", branch: "master"},  # For use in production
+      # {:live_table, path: "../live_table", override: true},
+      # For use in production
+      {:live_table, github: "gurujada/live_table", branch: "master"},
       {:faker, "~> 0.17"}
     ]
   end
