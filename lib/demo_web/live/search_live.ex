@@ -41,13 +41,23 @@ defmodule DemoWeb.SearchLive do
           </div>
         </div>
       </div>
-
-      <!-- Quick Info -->
+      
+    <!-- Quick Info -->
       <div class="bg-base-200/50 py-4">
         <div class="container mx-auto px-6">
           <div class="bg-info/10 border border-info/20 rounded-lg p-4 flex items-start gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="stroke-info flex-shrink-0 w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
             <div>
               <h3 class="font-bold">Try searching:</h3>
@@ -58,22 +68,21 @@ defmodule DemoWeb.SearchLive do
           </div>
         </div>
       </div>
-
-      <!-- Table Section -->
+      
+    <!-- Table Section -->
       <div class="container mx-auto px-6 py-8">
         <div class="bg-base-100 rounded-lg shadow-lg overflow-hidden">
           <div class="p-6">
-            <.live_table 
-              fields={fields()} 
-              filters={filters()} 
-              options={@options} 
+            <.live_table
+              fields={fields()}
+              filters={filters()}
+              options={@options}
               streams={@streams}
-              class="w-full" 
+              class="w-full"
             />
           </div>
         </div>
       </div>
-
     </div>
     """
   end

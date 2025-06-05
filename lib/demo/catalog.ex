@@ -12,6 +12,7 @@ defmodule Demo.Catalog do
 
   def list_products() do
     from p in Product,
+      as: :product,
       join: c in Category,
       on: p.category_id == c.id,
       join: ps in ProductsSuppliers,
@@ -20,7 +21,6 @@ defmodule Demo.Catalog do
       on: ps.supplier_id == s.id,
       join: i in Image,
       on: p.id == i.product_id,
-      
       select: %{
         id: p.id,
         name: p.name,
@@ -40,10 +40,12 @@ defmodule Demo.Catalog do
   def list_products_select() do
     from p in Product,
       join: c in Category,
+      as: :category,
       on: p.category_id == c.id,
       join: ps in ProductsSuppliers,
       on: p.id == ps.product_id,
       join: s in Supplier,
+      as: :supplier,
       on: ps.supplier_id == s.id,
       select: %{
         id: p.id,

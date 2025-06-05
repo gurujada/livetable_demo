@@ -32,21 +32,30 @@ defmodule DemoWeb.JoinsLive do
       confirmed_count: %{
         label: "Confirmed",
         sortable: true,
-        computed: dynamic([resource: e, registrations: r],
-          count(fragment("CASE WHEN ? = 'confirmed' THEN 1 END", r.status)))
+        computed:
+          dynamic(
+            [resource: e, registrations: r],
+            count(fragment("CASE WHEN ? = 'confirmed' THEN 1 END", r.status))
+          )
       },
       waitlist_count: %{
         label: "Waitlisted",
         sortable: true,
-        computed: dynamic([resource: e, registrations: r],
-          count(fragment("CASE WHEN ? = 'waitlisted' THEN 1 END", r.status)))
+        computed:
+          dynamic(
+            [resource: e, registrations: r],
+            count(fragment("CASE WHEN ? = 'waitlisted' THEN 1 END", r.status))
+          )
       },
       # Latest registration
       latest_registration: %{
         label: "Latest Registration",
         sortable: true,
-        computed: dynamic([resource: e, registrations: r],
-          fragment("MAX(?)", r.inserted_at))
+        computed:
+          dynamic(
+            [resource: e, registrations: r],
+            fragment("MAX(?)", r.inserted_at)
+          )
       }
     ]
   end

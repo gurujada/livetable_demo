@@ -46,7 +46,7 @@ defmodule DemoWeb.BasicTableLive do
           </div>
         </div>
       </div>
-      
+
       <div class="bg-base-200/50 py-4">
         <div class="container mx-auto px-6">
           <div class="bg-info/10 border border-info/20 rounded-lg p-4 flex items-start gap-3">
@@ -73,7 +73,7 @@ defmodule DemoWeb.BasicTableLive do
           </div>
         </div>
       </div>
-      
+
       <div class="container mx-auto px-6 py-8">
         <div class="bg-base-100 rounded-lg shadow-lg overflow-hidden">
           <div class="p-6">

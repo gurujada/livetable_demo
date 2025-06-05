@@ -15,5 +15,4 @@ defmodule Demo.Catalog.ProductsSuppliers do
     |> validate_required([:product_id, :supplier_id])
     |> unique_constraint([:product_id, :supplier_id])
   end
-  
 end

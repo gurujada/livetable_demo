@@ -43,7 +43,6 @@ defmodule DemoWeb.ProductLive.Index do
       },
       category_name: %{
         label: "Category Name",
-        
         searchable: false,
         sortable: false
       },
@@ -63,7 +62,7 @@ defmodule DemoWeb.ProductLive.Index do
         label: "Amount",
         sortable: true,
         searchable: false,
-        computed: dynamic([resource: r], fragment("? * ?", r.price, r.stock_quantity))
+        computed: dynamic([p], fragment("? * ?", p.price, p.stock_quantity))
       }
     ]
   end
@@ -82,11 +81,10 @@ defmodule DemoWeb.ProductLive.Index do
           "supplier",
           %{
             label: "Mahindra",
-            condition: dynamic([p, s], s.name == "Mahindra Supplies")
+            condition: dynamic([_, _, _, s], s.name == "Mahindra Supplies")
           }
         ),
-      prices:
-        Range.new(:price, "10-to-100", %{label: "Enter range", min: 0, max: 500, unit: "$"}),
+      prices: Range.new(:price, "10-to-100", %{label: "Enter range", min: 0, max: 500, unit: "$"})
       # supplier_name:
       #   Select.new({:suppliers, :name}, "supplier_name", %{
       #     label: "Supplier",

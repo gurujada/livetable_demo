@@ -1,7 +1,6 @@
 defmodule DemoWeb.Filters.SelectLive do
   use DemoWeb, :live_view
   use LiveTable.LiveResource
-  alias LiveTable.Select
   alias Demo.Catalog
 
   def mount(_params, _session, socket) do
@@ -25,11 +24,13 @@ defmodule DemoWeb.Filters.SelectLive do
       },
       category_name: %{
         label: "Category",
+        assoc: {:category, :name},
         sortable: true
       },
       supplier: %{
         label: "Supplier",
-        sortable: true
+        sortable: true,
+        assoc: {:supplier, :name}
       },
       stock_quantity: %{
         label: "Stock",
@@ -41,8 +42,8 @@ defmodule DemoWeb.Filters.SelectLive do
   def filters do
     [
       supplier:
-        Select.new({:suppliers, :name}, "supplier", %{
-          label: "Major Suppliers",
+        Select.new({:supplier, :name}, "supplier", %{
+          label: "Major Suppliers (Static Options)",
           options: [
             %{label: "AutoParts Direct", value: [1, "Major automotive supplier"]},
             %{label: "Tech Solutions Inc", value: [2, "Electronics manufacturer"]},
@@ -51,7 +52,7 @@ defmodule DemoWeb.Filters.SelectLive do
         }),
       category:
         Select.new({:category, :name}, "category", %{
-          label: "Category",
+          label: "Category (Dynamic Options)",
           options_source: {Catalog, :search_categories, []}
         })
     ]

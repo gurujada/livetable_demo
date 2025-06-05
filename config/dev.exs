@@ -9,7 +9,8 @@ config :demo, Demo.Repo,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
-  log: false
+  log: false,
+  timeout: :infinity
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

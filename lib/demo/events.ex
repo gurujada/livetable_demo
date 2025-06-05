@@ -5,7 +5,8 @@ defmodule Demo.Events do
 
   def list_events() do
     from e in Event,
-      join: r in Registration, as: :registrations,
+      join: r in Registration,
+      as: :registrations,
       on: r.event_id == e.id,
       group_by: [e.title, e.starts_at],
       select: %{
@@ -14,7 +15,7 @@ defmodule Demo.Events do
         total_registrations: count(r.id),
         latest_registration: max(r.inserted_at),
         waitlist_count: count(r.status == "waitlisted"),
-        confirmed_count: count(r.status == "confirmed"),
+        confirmed_count: count(r.status == "confirmed")
       }
   end
 

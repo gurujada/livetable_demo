@@ -55,7 +55,7 @@ defmodule DemoWeb.Layouts do
     <main class="min-h-screen">
       {render_slot(@inner_block)}
     </main>
-    
+
     <.flash_group flash={@flash} />
     """
   end
@@ -111,25 +111,31 @@ defmodule DemoWeb.Layouts do
   def theme_toggle(assigns) do
     ~H"""
     <div class="card relative flex flex-row items-center border-2 border-base-300 bg-base-300 rounded-full">
-      <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
+      <div
+        id="theme-slider"
+        class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 transition-[left] duration-200"
+      />
 
       <button
         phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "system"})}
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex p-2 cursor-pointer w-1/3 relative z-10"
+        data-theme-btn="system"
       >
         <.icon name="hero-computer-desktop-micro" class="size-4 opacity-75 hover:opacity-100" />
       </button>
 
       <button
         phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "light"})}
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex p-2 cursor-pointer w-1/3 relative z-10"
+        data-theme-btn="light"
       >
         <.icon name="hero-sun-micro" class="size-4 opacity-75 hover:opacity-100" />
       </button>
 
       <button
         phx-click={JS.dispatch("phx:set-theme", detail: %{theme: "dark"})}
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex p-2 cursor-pointer w-1/3 relative z-10"
+        data-theme-btn="dark"
       >
         <.icon name="hero-moon-micro" class="size-4 opacity-75 hover:opacity-100" />
       </button>

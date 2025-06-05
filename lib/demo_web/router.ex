@@ -1,7 +1,7 @@
 defmodule DemoWeb.Router do
   use DemoWeb, :router
- import Oban.Web.Router
- 
+  import Oban.Web.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
