@@ -1,6 +1,5 @@
 defmodule Demo.Seeds.Events do
-  alias Demo.{Events, Events.Event, Repo}
-  import Ecto.Query
+  alias Demo.{Events}
 
   def run do
     # Repo.delete_all(Event)

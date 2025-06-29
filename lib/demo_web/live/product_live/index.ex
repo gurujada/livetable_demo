@@ -84,15 +84,14 @@ defmodule DemoWeb.ProductLive.Index do
             condition: dynamic([_, _, _, s], s.name == "Mahindra Supplies")
           }
         ),
-      prices: Range.new(:price, "10-to-100", %{label: "Enter range", min: 0, max: 500, unit: "$"})
-      # supplier_name:
-      #   Select.new({:suppliers, :name}, "supplier_name", %{
-      #     label: "Supplier",
-      #     placeholder: "Search for suppliers...",
-      #     options_source: {Demo.Catalog, :search_suppliers, []}
-      #     # options: [{"Auto Parts Direct", ["id"]}],
-      #     # option_template: &custom_template/1,
-      #   })
+      prices:
+        Range.new(:price, "10-to-100", %{label: "Enter range", min: 0, max: 500, unit: "$"}),
+      supplier_name:
+        Select.new({:suppliers, :name}, "supplier_name", %{
+          label: "Supplier",
+          placeholder: "Search for suppliers...",
+          options_source: {Demo.Catalog, :search_suppliers, []}
+        })
     ]
   end
 

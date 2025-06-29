@@ -18,13 +18,13 @@
         const setTheme = (theme) => {
           // Validate theme
           const validTheme = ["light", "dark"].includes(theme) ? theme : DEFAULT_THEME;
-          
+
           // Save to localStorage
           localStorage.setItem(THEME_KEY, validTheme);
-          
+
           // Apply to DOM
           document.documentElement.setAttribute("data-theme", validTheme);
-          
+
           return validTheme;
         };
 
@@ -71,8 +71,6 @@
     </script>
   </head>
   <body>
-    <Layouts.app flash={@flash}>
-      {@inner_content}
-    </Layouts.app>
+    {@inner_content}
   </body>
 </html>

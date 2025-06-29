@@ -18,6 +18,7 @@ defmodule Demo.Catalog do
       join: ps in ProductsSuppliers,
       on: p.id == ps.product_id,
       join: s in Supplier,
+      as: :suppliers,
       on: ps.supplier_id == s.id,
       join: i in Image,
       on: p.id == i.product_id,

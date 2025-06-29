@@ -76,7 +76,6 @@ defmodule DemoWeb.Layouts do
               >
               </path>
             </svg>
-            <%!-- <.icon name="hero-code-bracket" class="size-5" /> --%>
           </a>
 
           <.theme_toggle />
