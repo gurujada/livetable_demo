@@ -34,7 +34,7 @@ defmodule DemoWeb.Layouts do
     <header class="navbar bg-base-100 shadow-sm border-b border-base-200 px-6">
       <div class="flex-1">
         <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="avatar placeholder">
+          <div class="avatar avatar-placeholder">
             <div class="bg-primary text-primary-content rounded-full w-10 h-10 flex items-center justify-center">
               <span class="text-lg font-bold">LT</span>
             </div>
