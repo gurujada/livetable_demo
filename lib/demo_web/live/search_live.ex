@@ -42,7 +42,7 @@ defmodule DemoWeb.SearchLive do
             </div>
           </div>
         </div>
-        
+
     <!-- Quick Info -->
         <div class="bg-base-200/50 py-4">
           <div class="container mx-auto px-6">
@@ -69,7 +69,7 @@ defmodule DemoWeb.SearchLive do
             </div>
           </div>
         </div>
-        
+
     <!-- Table Section -->
         <div class="container mx-auto px-6 py-8">
           <div class="bg-base-100 rounded-lg shadow-lg overflow-hidden">
@@ -91,7 +91,8 @@ defmodule DemoWeb.SearchLive do
 
   def table_options() do
     %{
-      exports: %{enabled: false}
+      exports: %{enabled: false},
+      debug: :trace
     }
   end
 end

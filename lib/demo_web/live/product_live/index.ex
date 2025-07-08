@@ -96,6 +96,6 @@ defmodule DemoWeb.ProductLive.Index do
   end
 
   def table_options() do
-    %{exports: %{enabled: true}}
+    %{exports: %{enabled: true}, debug: :query}
   end
 end
