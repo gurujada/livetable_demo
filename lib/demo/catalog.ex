@@ -14,6 +14,7 @@ defmodule Demo.Catalog do
     from p in Product,
       as: :product,
       join: c in Category,
+      as: :category,
       on: p.category_id == c.id,
       join: ps in ProductsSuppliers,
       on: p.id == ps.product_id,
