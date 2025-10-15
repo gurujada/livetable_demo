@@ -8,6 +8,11 @@ defmodule DemoWeb.ProductLive.Index do
     {:ok, assign(socket, page_title: "Products")}
   end
 
+  def handle_event("delete", %{"id" => id}, socket) do
+    Demo.Catalog.delete_product(id)
+    {:noreply, socket}
+  end
+
   def fields() do
     [
       id: %{
@@ -94,6 +99,35 @@ defmodule DemoWeb.ProductLive.Index do
         })
     ]
   end
+
+  # def actions do
+  #   [
+  #     edit: &edit_action/1,
+  #     delete: &delete_action/1
+  #   ]
+  # end
+
+  defp edit_action(assigns) do
+    ~H"""
+    <.link navigate={~p"/products/#{@record.id}/edit"} class="text-blue-600 mr-4 my-1 px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-600 text-white hover:cursor-pointer">
+      Edit
+    </.link>
+    """
+  end
+
+  defp delete_action(assigns) do
+    ~H"""
+    <button
+      phx-click="delete"
+      phx-value-id={@record.id}
+      data-confirm="Are you sure?"
+      class="text-red-600 mr-4 my-1 px-2 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white hover:cursor-pointer"
+    >
+      Delete
+    </button>
+    """
+  end
+
 
   def table_options() do
     %{exports: %{enabled: true}, debug: :query}

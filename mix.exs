@@ -61,7 +61,7 @@ defmodule Demo.MixProject do
       {:bandit, "~> 1.5"},
       {:oban, "~> 2.19"},
       {:oban_web, "~> 2.11"},
-      {:igniter, "~> 0.5", only: [:dev]},
+      {:igniter, "~> 0.6.28"},
       # For use in local
       # {:live_table, path: "../live_table", override: true},
       # For use in production
