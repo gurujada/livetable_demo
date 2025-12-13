@@ -84,8 +84,9 @@ defmodule DemoWeb do
 
       # HTML escaping functionality
       import Phoenix.HTML
-      # Core UI components
-      import DemoWeb.CoreComponents
+
+      # SutraUI components (replaces CoreComponents)
+      use SutraUI
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

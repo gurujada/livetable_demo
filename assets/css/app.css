@@ -1,110 +1,506 @@
-/* See the Tailwind configuration guide for advanced usage
-   https://tailwindcss.com/docs/configuration */
-
+/* Tailwind CSS v4 */
 @import "tailwindcss" source(none);
 @source "../css";
 @source "../js";
 @source "../../lib/demo_web";
 
-/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
-   The heroicons installation itself is managed by your mix.exs */
-@plugin "../vendor/heroicons";
+/* SutraUI - Component library */
+@source "../../../sutra_ui/lib";
+@import "../../../sutra_ui/priv/static/sutra_ui.css";
 
-/* @source "../../../live_table/lib";  for use in local */
-/* @import "../../../live_table/priv/static/live-table.css";  for use in local */
+/* LiveTable - DataTable component (uses colocated components, no separate CSS) */
+@source "../../../live_table/lib";
 
-@source "../../deps/live_table/lib"; /* for use in production */
-@import "../../deps/live_table/priv/static/live-table.css"; /* for use in production */
-
-
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
-   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
-   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
-@plugin "../vendor/daisyui" {
-  themes: false;
-}
-
-/* daisyUI theme plugin. You can update this file by fetching the latest version with:
-  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
-  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
-  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
-@plugin "../vendor/daisyui-theme" {
-  name: "dark";
-  default: false;
-  prefersdark: true;
-  color-scheme: "dark";
-  --color-base-100: oklch(22% 0.022 240);
-  --color-base-200: oklch(18% 0.020 240);
-  --color-base-300: oklch(14% 0.018 240);
-  --color-base-content: oklch(95% 0.025 240);
-  --color-primary: oklch(65% 0.18 240);
-  --color-primary-content: oklch(15% 0.025 240);
-  --color-secondary: oklch(60% 0.16 260);
-  --color-secondary-content: oklch(15% 0.025 260);
-  --color-accent: oklch(70% 0.15 200);
-  --color-accent-content: oklch(15% 0.025 200);
-  --color-neutral: oklch(25% 0.025 240);
-  --color-neutral-content: oklch(90% 0.025 240);
-  --color-info: oklch(68% 0.16 220);
-  --color-info-content: oklch(15% 0.025 220);
-  --color-success: oklch(65% 0.14 140);
-  --color-success-content: oklch(15% 0.025 140);
-  --color-warning: oklch(75% 0.16 80);
-  --color-warning-content: oklch(15% 0.025 80);
-  --color-error: oklch(65% 0.20 20);
-  --color-error-content: oklch(15% 0.025 20);
-  --radius-selector: 0.5rem;
-  --radius-field: 0.5rem;
-  --radius-box: 0.75rem;
-  --size-selector: 0.21875rem;
-  --size-field: 0.21875rem;
-  --border: 1px;
-  --depth: 1;
-  --noise: 0;
-}
-
-@plugin "../vendor/daisyui-theme" {
-  name: "light";
-  default: true;
-  prefersdark: false;
-  color-scheme: "light";
-  --color-base-100: oklch(100% 0 0);
-  --color-base-200: oklch(96% 0.008 240);
-  --color-base-300: oklch(92% 0.012 240);
-  --color-base-content: oklch(15% 0.025 240);
-  --color-primary: oklch(55% 0.18 240);
-  --color-primary-content: oklch(98% 0.008 240);
-  --color-secondary: oklch(50% 0.16 260);
-  --color-secondary-content: oklch(98% 0.008 260);
-  --color-accent: oklch(60% 0.15 200);
-  --color-accent-content: oklch(98% 0.008 200);
-  --color-neutral: oklch(35% 0.025 240);
-  --color-neutral-content: oklch(98% 0.008 240);
-  --color-info: oklch(58% 0.16 220);
-  --color-info-content: oklch(98% 0.008 220);
-  --color-success: oklch(55% 0.14 140);
-  --color-success-content: oklch(98% 0.008 140);
-  --color-warning: oklch(65% 0.16 80);
-  --color-warning-content: oklch(98% 0.008 80);
-  --color-error: oklch(55% 0.20 20);
-  --color-error-content: oklch(98% 0.008 20);
-  --radius-selector: 0.5rem;
-  --radius-field: 0.5rem;
-  --radius-box: 0.75rem;
-  --size-selector: 0.21875rem;
-  --size-field: 0.21875rem;
-  --border: 1px;
-  --depth: 1;
-  --noise: 0;
-}
+/* Lucide Icons - via lucide_icons hex package (CSS included by SutraUI) */
 
 /* Add variants based on LiveView classes */
 @custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
 @custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
 @custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
 
-/* Make LiveView wrapper divs transparent for layout */
-[data-phx-session] { display: contents }
+/* Dark mode variant */
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* This file is for your main application CSS */
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session] {
+    display: contents;
+}
+
+/* ============================================
+   CUSTOM DESIGN SYSTEM
+   ============================================ */
+
+/* Typography */
+@theme {
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Bricolage Grotesque", system-ui, sans-serif;
+}
+
+/* Custom color palette - Deep ocean dark theme with electric cyan accent */
+:root {
+  /* Display font for headings */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  
+  /* Brand colors */
+  --color-brand-50: #ecfeff;
+  --color-brand-100: #cffafe;
+  --color-brand-200: #a5f3fc;
+  --color-brand-300: #67e8f9;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #06b6d4;
+  --color-brand-600: #0891b2;
+  --color-brand-700: #0e7490;
+  --color-brand-800: #155e75;
+  --color-brand-900: #164e63;
+  
+  /* Accent colors - warm amber */
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in scale */
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slide in from left */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide in from right */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.5);
+  }
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Gradient shift */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.4s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Staggered animation delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* Start with opacity 0 for animated elements */
+.animate-on-load {
+  opacity: 0;
+}
+
+/* ============================================
+   BACKGROUND PATTERNS & EFFECTS
+   ============================================ */
+
+/* Dot grid pattern */
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, rgba(6, 182, 212, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Grid pattern */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Gradient mesh background */
+.bg-gradient-mesh {
+  background: 
+    radial-gradient(at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+    radial-gradient(at 40% 60%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
+}
+
+/* Hero gradient */
+.bg-hero-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--background)) 0%,
+    hsl(220 20% 10%) 50%,
+    hsl(var(--background)) 100%);
+}
+
+/* Glow effect */
+.glow-cyan {
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1);
+}
+
+.glow-amber {
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.3), 0 0 60px rgba(245, 158, 11, 0.1);
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   NAVBAR STYLES
+   ============================================ */
+
+.navbar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #06b6d4, #a855f7);
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* ============================================
+   CARD HOVER EFFECTS
+   ============================================ */
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 20px 40px -12px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(6, 182, 212, 0.1);
+}
+
+/* Card with border gradient on hover */
+.card-gradient-border {
+  position: relative;
+  background: hsl(var(--card));
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent 0%, transparent 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: background 0.3s ease;
+}
+
+.card-gradient-border:hover::before {
+  background: linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #f59e0b 100%);
+}
+
+/* Featured card */
+.card-featured {
+  background: linear-gradient(135deg, 
+    rgba(6, 182, 212, 0.1) 0%, 
+    rgba(168, 85, 247, 0.05) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.card-featured:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 
+    0 20px 40px -12px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(6, 182, 212, 0.15);
+}
+
+/* ============================================
+   BUTTON ENHANCEMENTS
+   ============================================ */
+
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.btn-glow:hover::before {
+  transform: translateX(100%);
+}
+
+/* ============================================
+   BADGE/PILL STYLES
+   ============================================ */
+
+.pill-cyan {
+  background: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.pill-amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.pill-purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* ============================================
+   DEMO NUMBER BADGE
+   ============================================ */
+
+.demo-number {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+/* Always show vertical scrollbar on html to prevent layout shift */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+/* Scrollbar styling using theme colors */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: hsl(var(--muted));
+}
+
+/* Firefox scrollbar - uses system colors, can't use CSS variables easily */
+@supports (scrollbar-color: auto) {
+  * {
+    scrollbar-width: thin;
+  }
+}
+
+/* ============================================
+   SELECTION STYLING
+   ============================================ */
+
+::selection {
+  background: rgba(6, 182, 212, 0.3);
+  color: inherit;
+}
+
+/* ============================================
+   CODE/MONO TEXT STYLING
+   ============================================ */
+
+.code-text {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: hsl(var(--muted));
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+}
+
+/* ============================================
+   FEATURE ICON STYLING
+   ============================================ */
+
+.feature-icon {
+  background: linear-gradient(135deg, 
+    rgba(6, 182, 212, 0.2) 0%, 
+    rgba(168, 85, 247, 0.1) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.feature-icon:hover {
+  background: linear-gradient(135deg, 
+    rgba(6, 182, 212, 0.3) 0%, 
+    rgba(168, 85, 247, 0.15) 100%);
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+/* ============================================
+   STAT NUMBER STYLING
+   ============================================ */
+
+.stat-number {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

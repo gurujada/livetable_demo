@@ -1,61 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Demo" suffix=" · Phoenix Framework">
+    <.live_title default="LiveTable" suffix=" · Real-time DataTables">
       {assigns[:page_title]}
     </.live_title>
+    <!-- Google Fonts: Bricolage Grotesque (display) + JetBrains Mono (code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
     </script>
     <script>
-      (() => {
-        const THEME_KEY = "phx:theme";
-        const DEFAULT_THEME = "light";
-
-        const setTheme = (theme) => {
-          // Validate theme
-          const validTheme = ["light", "dark"].includes(theme) ? theme : DEFAULT_THEME;
-
-          // Save to localStorage
-          localStorage.setItem(THEME_KEY, validTheme);
-
-          // Apply to DOM
-          document.documentElement.setAttribute("data-theme", validTheme);
-
-          return validTheme;
-        };
-
-        const getCurrentTheme = () => {
-          return localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
-        };
-
-        const initializeTheme = () => {
-          const savedTheme = getCurrentTheme();
-          setTheme(savedTheme);
-        };
-
-        // Event listeners
-        window.addEventListener("phx:set-theme", ({ detail: { theme } }) => {
-          setTheme(theme);
-        });
-
-        // Handle localStorage changes from other tabs
-        window.addEventListener("storage", (e) => {
-          if (e.key === THEME_KEY) {
-            const newTheme = e.newValue || DEFAULT_THEME;
-            setTheme(newTheme);
-          }
-        });
-
-        // Initialize theme on page load
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initializeTheme);
+      (function() {
+        const THEME_KEY = 'sutra-ui:theme';
+        const theme = localStorage.getItem(THEME_KEY) ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
         } else {
-          initializeTheme();
+          document.documentElement.classList.remove('dark');
         }
+        
+        window.addEventListener('sutra-ui:set-theme', (e) => {
+          const newTheme = e.detail?.theme;
+          if (newTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+          localStorage.setItem(THEME_KEY, newTheme);
+        });
       })();
     </script>
     

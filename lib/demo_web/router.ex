@@ -20,6 +20,20 @@ defmodule DemoWeb.Router do
 
     oban_dashboard("/oban")
     get "/", PageController, :home
+
+    # LiveTable Demos
+    live "/contacts", ContactsLive
+    live "/tasks", TasksLive
+    live "/demo-employees", EmployeesLive
+    live "/products-simple", ProductsSimpleLive
+    live "/orders", OrdersLive
+    live "/invoices", InvoicesLive
+    live "/inventory", InventoryLive
+    live "/leads", LeadsLive
+    live "/projects", ProjectsLive
+    live "/flagship", FlagshipLive
+
+    # Existing routes (keeping for backward compatibility)
     live "/posts", PostLive.Index, :index
     live "/products", ProductLive.Index, :index
     live "/employees", BasicTableLive
