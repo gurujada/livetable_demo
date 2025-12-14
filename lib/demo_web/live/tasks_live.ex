@@ -112,9 +112,7 @@ defmodule DemoWeb.TasksLive do
     {:noreply, socket}
   end
 
-  def handle_event("view_task", %{"id" => id}, socket) do
-    task = Demo.Tasks.get_task!(id)
-
+  def handle_event("view_task", %{"id" => _id}, socket) do
     socket =
       put_flash(socket, :info, "In a real app, this would navigate to the task detail page")
 

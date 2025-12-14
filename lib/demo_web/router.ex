@@ -32,19 +32,6 @@ defmodule DemoWeb.Router do
     live "/leads", LeadsLive
     live "/projects", ProjectsLive
     live "/flagship", FlagshipLive
-
-    # Existing routes (keeping for backward compatibility)
-    live "/posts", PostLive.Index, :index
-    live "/products", ProductLive.Index, :index
-    live "/employees", BasicTableLive
-    live "/boolean", Filters.BooleanLive
-    live "/range", Filters.RangeLive
-    live "/datetimerange", Filters.DateRangeLive
-    live "/select", Filters.SelectLive
-    live "/search", SearchLive
-    live "/joins", JoinLive
-    live "/joinslive", JoinsLive
-    live "/custombadge", CustomBadgeLive
   end
 
   # Other scopes may use custom stacks.

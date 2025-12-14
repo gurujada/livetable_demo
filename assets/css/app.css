@@ -4,11 +4,28 @@
 @source "../js";
 @source "../../lib/demo_web";
 
+/* ============================================
+   EXTERNAL LIBRARIES
+   ============================================
+   
+   For published demo: Use deps paths (libraries installed via mix deps.get)
+   For local development: Use local paths (to test unreleased features)
+   
+   Uncomment the appropriate lines below based on your setup.
+   ============================================ */
+
 /* SutraUI - Component library */
+/* Published: use from deps */
+/* @source "../../deps/sutra_ui/lib"; */
+/* @import "../../deps/sutra_ui/priv/static/sutra_ui.css"; */
+/* Local development: use from parent folder */
 @source "../../../sutra_ui/lib";
 @import "../../../sutra_ui/priv/static/sutra_ui.css";
 
-/* LiveTable - DataTable component (uses colocated components, no separate CSS) */
+/* LiveTable - DataTable component */
+/* Published: use from deps */
+/* @source "../../deps/live_table/lib"; */
+/* Local development: use from parent folder */
 @source "../../../live_table/lib";
 
 /* Lucide Icons - via lucide_icons hex package (CSS included by SutraUI) */
@@ -77,52 +94,6 @@
   }
 }
 
-/* Fade in scale */
-@keyframes fade-in-scale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Slide in from left */
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Slide in from right */
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Pulse glow */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(6, 182, 212, 0.5);
-  }
-}
-
 /* Float animation */
 @keyframes float {
   0%, 100% {
@@ -133,47 +104,13 @@
   }
 }
 
-/* Gradient shift */
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 /* Animation utility classes */
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
 
-.animate-fade-in-scale {
-  animation: fade-in-scale 0.4s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slide-in-left 0.5s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slide-in-right 0.5s ease-out forwards;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
 .animate-float {
   animation: float 6s ease-in-out infinite;
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
 }
 
 /* Staggered animation delays */
@@ -181,10 +118,6 @@
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
-.delay-700 { animation-delay: 700ms; }
-.delay-800 { animation-delay: 800ms; }
 
 /* Start with opacity 0 for animated elements */
 .animate-on-load {
@@ -201,37 +134,12 @@
   background-size: 24px 24px;
 }
 
-/* Grid pattern */
-.bg-grid-pattern {
-  background-image: 
-    linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
 /* Gradient mesh background */
 .bg-gradient-mesh {
   background: 
     radial-gradient(at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
     radial-gradient(at 80% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
     radial-gradient(at 40% 60%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
-}
-
-/* Hero gradient */
-.bg-hero-gradient {
-  background: linear-gradient(135deg, 
-    hsl(var(--background)) 0%,
-    hsl(220 20% 10%) 50%,
-    hsl(var(--background)) 100%);
-}
-
-/* Glow effect */
-.glow-cyan {
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1);
-}
-
-.glow-amber {
-  box-shadow: 0 0 30px rgba(245, 158, 11, 0.3), 0 0 60px rgba(245, 158, 11, 0.1);
 }
 
 /* ============================================
@@ -254,13 +162,6 @@
   background-clip: text;
 }
 
-.text-gradient-cyan {
-  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* ============================================
    NAVBAR STYLES
    ============================================ */
@@ -268,83 +169,6 @@
 .navbar {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-}
-
-.navbar-link {
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.navbar-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #06b6d4, #a855f7);
-  transition: width 0.3s ease;
-}
-
-.navbar-link:hover::after {
-  width: 100%;
-}
-
-/* ============================================
-   CARD HOVER EFFECTS
-   ============================================ */
-
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 
-    0 20px 40px -12px rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(6, 182, 212, 0.1);
-}
-
-/* Card with border gradient on hover */
-.card-gradient-border {
-  position: relative;
-  background: hsl(var(--card));
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.card-gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  padding: 1px;
-  background: linear-gradient(135deg, transparent 0%, transparent 100%);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  transition: background 0.3s ease;
-}
-
-.card-gradient-border:hover::before {
-  background: linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #f59e0b 100%);
-}
-
-/* Featured card */
-.card-featured {
-  background: linear-gradient(135deg, 
-    rgba(6, 182, 212, 0.1) 0%, 
-    rgba(168, 85, 247, 0.05) 100%);
-  border: 1px solid rgba(6, 182, 212, 0.3);
-}
-
-.card-featured:hover {
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 
-    0 20px 40px -12px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(6, 182, 212, 0.15);
 }
 
 /* ============================================
@@ -367,28 +191,6 @@
 
 .btn-glow:hover::before {
   transform: translateX(100%);
-}
-
-/* ============================================
-   BADGE/PILL STYLES
-   ============================================ */
-
-.pill-cyan {
-  background: rgba(6, 182, 212, 0.15);
-  color: #22d3ee;
-  border: 1px solid rgba(6, 182, 212, 0.3);
-}
-
-.pill-amber {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.pill-purple {
-  background: rgba(168, 85, 247, 0.15);
-  color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 /* ============================================
@@ -451,18 +253,6 @@ html {
 }
 
 /* ============================================
-   CODE/MONO TEXT STYLING
-   ============================================ */
-
-.code-text {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  background: hsl(var(--muted));
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
-}
-
-/* ============================================
    FEATURE ICON STYLING
    ============================================ */
 
@@ -478,17 +268,6 @@ html {
     rgba(6, 182, 212, 0.3) 0%, 
     rgba(168, 85, 247, 0.15) 100%);
   border-color: rgba(6, 182, 212, 0.4);
-}
-
-/* ============================================
-   STAT NUMBER STYLING
-   ============================================ */
-
-.stat-number {
-  font-family: var(--font-mono);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================

@@ -59,33 +59,4 @@ defmodule DemoWeb.Helpers do
 
     "#{rest_formatted},#{last_two_str}"
   end
-
-  @doc """
-  Format a number with standard Western comma separators (X,XXX,XXX).
-  """
-  def format_number(nil), do: "-"
-
-  def format_number(amount) when is_struct(amount, Decimal) do
-    amount
-    |> Decimal.round(0)
-    |> Decimal.to_integer()
-    |> format_number()
-  end
-
-  def format_number(amount) when is_integer(amount) do
-    sign = if amount < 0, do: "-", else: ""
-
-    abs(amount)
-    |> Integer.to_string()
-    |> String.graphemes()
-    |> Enum.reverse()
-    |> Enum.chunk_every(3)
-    |> Enum.join(",")
-    |> String.reverse()
-    |> then(&(sign <> &1))
-  end
-
-  def format_number(amount) when is_float(amount) do
-    format_number(trunc(amount))
-  end
 end

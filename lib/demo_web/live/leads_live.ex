@@ -231,7 +231,7 @@ defmodule DemoWeb.LeadsLive do
     %{
       pagination: %{sizes: [10, 25, 50, 100], default_size: 25},
       sorting: %{default_sort: [deal_value: :desc]},
-      search: %{placeholder: "Search leads..."}
+      search: %{placeholder: "Search leads..."}, fixed_header: true
     }
   end
 

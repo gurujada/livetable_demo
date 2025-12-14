@@ -47,7 +47,7 @@ defmodule DemoWeb.FlagshipLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true},
+      id: %{label: "ID", sortable: true},
       sku: %{label: "SKU", searchable: true},
       name: %{label: "Product", sortable: true, searchable: true},
       brand_name: %{label: "Brand", sortable: true, searchable: true, assoc: {:brand, :name}},
@@ -67,8 +67,6 @@ defmodule DemoWeb.FlagshipLive do
     ]
   end
 
-  # TODO: Add Select filter for status once lookup table is created
-  # See database_tasks.md for details
   def filters do
     [
       category:

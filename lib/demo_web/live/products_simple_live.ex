@@ -26,8 +26,6 @@ defmodule DemoWeb.ProductsSimpleLive do
     ]
   end
 
-  # TODO: Add Select filters for Category and Brand once many-to-many relationships are set up
-  # See database_tasks.md for details
   def filters do
     [
       price_range:
@@ -73,17 +71,6 @@ defmodule DemoWeb.ProductsSimpleLive do
     </button>
     """
   end
-
-  # TODO: These will be used once Category and Brand tables are created
-  # defp get_category_options do
-  #   ~w(Electronics Clothing Footwear Home\ &\ Kitchen Beauty Sports Books Toys Automotive Health Grocery Jewelry Furniture Office Garden)
-  #   |> Enum.map(&%{label: &1, value: [&1]})
-  # end
-  #
-  # defp get_brand_options do
-  #   ~w(Samsung Apple OnePlus Xiaomi Sony Nike Adidas Puma Boat JBL Tanishq Titan)
-  #   |> Enum.map(&%{label: &1, value: [&1]})
-  # end
 
   def table_options do
     %{

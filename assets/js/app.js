@@ -7,8 +7,6 @@ import topbar from "../vendor/topbar";
 
 // Colocated hooks from Phoenix 1.8+
 import { hooks as sutraUiHooks } from "phoenix-colocated/sutra_ui";
-import { hooks as liveTableHooks } from "phoenix-colocated/live_table";
-import { hooks as demoHooks } from "phoenix-colocated/demo";
 
 const csrfToken = document
     .querySelector("meta[name='csrf-token']")
@@ -17,8 +15,6 @@ const csrfToken = document
 // Merge all hooks
 const hooks = {
     ...sutraUiHooks,
-    // ...liveTableHooks,
-    ...demoHooks,
 };
 
 const liveSocket = new LiveSocket("/live", Socket, {

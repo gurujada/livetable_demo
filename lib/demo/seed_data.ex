@@ -346,40 +346,4 @@ defmodule Demo.SeedData do
     nouns = ~w(Platform Portal Gateway Engine Hub System Suite Framework Solution App)
     "#{Enum.random(adjectives)} #{Enum.random(nouns)}"
   end
-
-  @doc """
-  Formats amount in Indian currency format (₹X,XX,XXX.XX)
-  """
-  def format_inr(amount) when is_integer(amount) do
-    format_inr(Decimal.new(amount))
-  end
-
-  def format_inr(%Decimal{} = amount) do
-    amount
-    |> Decimal.to_string()
-    |> format_indian_number()
-    |> then(&"₹#{&1}")
-  end
-
-  defp format_indian_number(str) do
-    {decimal, integer} =
-      case String.split(str, ".") do
-        [int] -> {"", int}
-        [int, dec] -> {"." <> dec, int}
-      end
-
-    integer
-    |> String.reverse()
-    |> String.graphemes()
-    |> Enum.chunk_every(2, 2, [])
-    |> Enum.with_index()
-    |> Enum.map(fn {chunk, i} ->
-      if i == 0, do: Enum.take(chunk ++ [""], 3), else: chunk
-    end)
-    |> List.flatten()
-    |> Enum.join(",")
-    |> String.reverse()
-    |> String.trim_leading(",")
-    |> Kernel.<>(decimal)
-  end
 end

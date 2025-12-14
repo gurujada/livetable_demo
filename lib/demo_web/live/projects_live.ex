@@ -54,8 +54,6 @@ defmodule DemoWeb.ProjectsLive do
     ]
   end
 
-  # TODO: Add Select filter for status once lookup table is created
-  # See database_tasks.md for details
   def filters do
     [
       project_type:

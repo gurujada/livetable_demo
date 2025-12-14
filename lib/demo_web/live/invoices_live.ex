@@ -59,8 +59,6 @@ defmodule DemoWeb.InvoicesLive do
     ]
   end
 
-  # TODO: Add Select filter for status once lookup table is created
-  # See database_tasks.md for details
   def filters do
     [
       amount_range:

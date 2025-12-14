@@ -46,9 +46,13 @@ defmodule Demo.MixProject do
       {:esbuild, "~> 0.9", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
 
-      # UI Libraries (local paths for development)
-      {:sutra_ui, path: "../sutra_ui"},
-      {:live_table, path: "../live_table", override: true},
+      # UI Libraries
+      # Published: use from hex.pm
+      {:sutra_ui, "~> 0.1"},
+      {:live_table, "~> 0.4"},
+      # Local development: use from parent folder (to test unreleased features)
+      # {:sutra_ui, path: "../sutra_ui"},
+      # {:live_table, path: "../live_table", override: true},
 
       # Utilities
       {:swoosh, "~> 1.16"},

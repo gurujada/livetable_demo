@@ -42,17 +42,6 @@ defmodule DemoWeb.ContactsLive do
     """
   end
 
-  defp email_action(assigns) do
-    ~H"""
-    <a
-      href={"mailto:#{@record.email}"}
-      class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
-    >
-      <.icon name="lucide-mail" class="size-3" /> Email
-    </a>
-    """
-  end
-
   def table_options do
     %{
       search: %{

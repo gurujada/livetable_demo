@@ -77,18 +77,6 @@ defmodule DemoWeb.EmployeesLive do
     """
   end
 
-  defp email_action(assigns) do
-    ~H"""
-    <button
-      phx-click="email_employee"
-      phx-value-id={@record.id}
-      class="flex items-center gap-2 w-full px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors"
-    >
-      <.icon name="lucide-mail" class="size-4" /> Send Email
-    </button>
-    """
-  end
-
   def table_options do
     %{
       pagination: %{

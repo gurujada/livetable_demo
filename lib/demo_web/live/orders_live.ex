@@ -28,8 +28,6 @@ defmodule DemoWeb.OrdersLive do
     ]
   end
 
-  # TODO: Add Select filters for status, payment_status, and state once lookup tables are created
-  # See database_tasks.md for details
   def filters do
     [
       amount_range:
@@ -95,12 +93,6 @@ defmodule DemoWeb.OrdersLive do
     </button>
     """
   end
-
-  # TODO: This will be used once IndianStates lookup table is created
-  # defp get_state_options do
-  #   ~w(Maharashtra Karnataka Tamil\ Nadu Gujarat Rajasthan Uttar\ Pradesh West\ Bengal Telangana Kerala Punjab Haryana Delhi)
-  #   |> Enum.map(&%{label: &1, value: [&1]})
-  # end
 
   def table_options do
     %{
