@@ -37,8 +37,7 @@ defmodule DemoWeb.ProductLive.Index do
       },
       supplier_name: %{
         label: "Supplier Name",
-        searchable: false,
-        sortable: false
+        searchable: false
       },
       supplier_contact: %{
         label: "Supplier Contact",
@@ -48,8 +47,7 @@ defmodule DemoWeb.ProductLive.Index do
       },
       category_name: %{
         label: "Category Name",
-        searchable: false,
-        sortable: false
+        searchable: false
       },
       category_description: %{
         label: "Category Description",
@@ -59,7 +57,6 @@ defmodule DemoWeb.ProductLive.Index do
       },
       image: %{
         label: "Image",
-        sortable: false,
         searchable: false,
         assoc: {:image, :url}
       },
@@ -90,7 +87,13 @@ defmodule DemoWeb.ProductLive.Index do
           }
         ),
       prices:
-        Range.new(:price, "10-to-100", %{label: "Enter range", min: 0, max: 500, unit: "$"}),
+        Range.new(:price, "10-to-100", %{
+          label: "Enter range",
+          min: 0,
+          max: 500,
+          unit: "$",
+          pips: true
+        }),
       supplier_name:
         Select.new({:suppliers, :name}, "supplier_name", %{
           label: "Supplier",
@@ -100,38 +103,11 @@ defmodule DemoWeb.ProductLive.Index do
     ]
   end
 
-  # def actions do
-  #   [
-  #     edit: &edit_action/1,
-  #     delete: &delete_action/1
-  #   ]
-  # end
-
-  # defp edit_action(assigns) do
-  #   ~H"""
-  #   <.link
-  #     navigate={~p"/products/#{@record.id}/edit"}
-  #     class="text-blue-600 mr-4 my-1 px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-600 text-white hover:cursor-pointer"
-  #   >
-  #     Edit
-  #   </.link>
-  #   """
-  # end
-
-  # defp delete_action(assigns) do
-  #   ~H"""
-  #   <button
-  #     phx-click="delete"
-  #     phx-value-id={@record.id}
-  #     data-confirm="Are you sure?"
-  #     class="text-red-600 mr-4 my-1 px-2 py-1 rounded-md bg-red-500 hover:bg-red-600 text-white hover:cursor-pointer"
-  #   >
-  #     Delete
-  #   </button>
-  #   """
-  # end
-
-  def table_options() do
-    %{exports: %{enabled: true}, debug: :query}
+  def table_options do
+    %{
+      pagination: %{default_size: 50},
+      sorting: %{default_sort: [name: :asc]},
+      search: %{placeholder: "Search products..."}
+    }
   end
 end

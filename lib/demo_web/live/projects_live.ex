@@ -43,14 +43,14 @@ defmodule DemoWeb.ProjectsLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
+      id: %{label: "ID", hidden: true},
       name: %{label: "Project", sortable: true, searchable: true},
       client_name: %{label: "Client", sortable: true, searchable: true, assoc: {:client, :name}},
-      project_type: %{label: "Type", sortable: false, assoc: {:project_type, :name}},
-      status: %{label: "Status", sortable: false},
+      project_type: %{label: "Type", assoc: {:project_type, :name}},
+      status: %{label: "Status"},
       budget: %{label: "Budget", sortable: true},
-      progress: %{label: "Progress", sortable: false},
-      team_size: %{label: "Team", sortable: false}
+      progress: %{label: "Progress"},
+      team_size: %{label: "Team"}
     ]
   end
 
@@ -62,29 +62,7 @@ defmodule DemoWeb.ProjectsLive do
         Select.new({:project_type, :name}, "project_type", %{
           label: "Project Type",
           mode: :tags,
-          options: [
-            %{label: "Web Development", value: ["Web Development"]},
-            %{label: "Mobile App", value: ["Mobile App"]},
-            %{label: "E-commerce", value: ["E-commerce"]},
-            %{label: "ERP Implementation", value: ["ERP Implementation"]},
-            %{label: "Cloud Migration", value: ["Cloud Migration"]},
-            %{label: "Data Analytics", value: ["Data Analytics"]},
-            %{label: "Security Audit", value: ["Security Audit"]},
-            %{label: "IT Consulting", value: ["IT Consulting"]}
-          ]
-        }),
-      industry:
-        Select.new({:client, :industry}, "industry", %{
-          label: "Industry",
-          mode: :tags,
-          options: [
-            %{label: "Technology", value: ["Technology"]},
-            %{label: "Finance", value: ["Finance"]},
-            %{label: "Healthcare", value: ["Healthcare"]},
-            %{label: "Retail", value: ["Retail"]},
-            %{label: "Manufacturing", value: ["Manufacturing"]},
-            %{label: "Education", value: ["Education"]}
-          ]
+          options_source: {Demo.Projects, :search_project_types, []}
         }),
       budget_range:
         Range.new(:budget, "budget_range", %{
@@ -94,7 +72,8 @@ defmodule DemoWeb.ProjectsLive do
           max: 10_000_000,
           step: 100_000,
           default_min: 100_000,
-          default_max: 10_000_000
+          default_max: 10_000_000,
+          pips: true
         }),
       featured:
         Boolean.new(:is_featured, "featured", %{
@@ -105,16 +84,6 @@ defmodule DemoWeb.ProjectsLive do
         Boolean.new(:status, "active", %{
           label: "Active Projects",
           condition: dynamic([p], p.status == "active")
-        }),
-      at_risk:
-        Boolean.new(:progress, "at_risk", %{
-          label: "At Risk (Progress < 50% past midpoint)",
-          condition:
-            dynamic(
-              [p],
-              p.progress < 50 and
-                fragment("? < CURRENT_DATE - (? - ?) / 2", p.start_date, p.end_date, p.start_date)
-            )
         })
     ]
   end
@@ -123,20 +92,9 @@ defmodule DemoWeb.ProjectsLive do
     %{
       mode: :card,
       card_component: &project_card/1,
-      pagination: %{
-        enabled: true,
-        sizes: [12, 24, 48],
-        default_size: 12
-      },
-      sorting: %{
-        enabled: true,
-        default_sort: [start_date: :desc]
-      },
-      search: %{
-        enabled: true,
-        debounce: 300,
-        placeholder: "Search projects..."
-      }
+      pagination: %{mode: :infinite_scroll, sizes: [12, 24, 48], default_size: 12},
+      sorting: %{default_sort: [start_date: :desc]},
+      search: %{placeholder: "Search projects..."}
     }
   end
 

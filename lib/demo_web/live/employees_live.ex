@@ -12,14 +12,14 @@ defmodule DemoWeb.EmployeesLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
-      employee_id: %{label: "Emp ID", sortable: false},
+      id: %{label: "ID", hidden: true},
+      employee_id: %{label: "Emp ID"},
       name: %{label: "Name", sortable: true, searchable: true},
       department: %{label: "Department", sortable: true, searchable: true},
-      designation: %{label: "Designation", searchable: true, sortable: false},
+      designation: %{label: "Designation", searchable: true},
       salary: %{label: "Salary", sortable: true, renderer: &format_salary/1},
-      experience_years: %{label: "Experience", renderer: &format_experience/1, sortable: false},
-      is_active: %{label: "Status", renderer: &render_status/1, sortable: false}
+      experience_years: %{label: "Experience", renderer: &format_experience/1},
+      is_active: %{label: "Status", renderer: &render_status/1}
     ]
   end
 
@@ -45,7 +45,8 @@ defmodule DemoWeb.EmployeesLive do
           max: 30,
           step: 1,
           default_min: 0,
-          default_max: 30, pips: true
+          default_max: 30,
+          pips: true
         }),
       active_only:
         Boolean.new(:is_active, "active", %{
@@ -59,7 +60,7 @@ defmodule DemoWeb.EmployeesLive do
     %{
       label: "Actions",
       items: [
-        view: &view_action/1,
+        view: &view_action/1
       ]
     }
   end
@@ -91,17 +92,12 @@ defmodule DemoWeb.EmployeesLive do
   def table_options do
     %{
       pagination: %{
-        enabled: true,
-        sizes: [10, 25, 50],
         default_size: 50
       },
       sorting: %{
-        enabled: true,
         default_sort: [name: :asc]
       },
       search: %{
-        enabled: true,
-        debounce: 300,
         placeholder: "Search employees..."
       },
       fixed_header: true

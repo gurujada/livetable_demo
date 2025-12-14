@@ -36,6 +36,14 @@ defmodule Demo.Flagship do
   def create_category(attrs), do: %Category{} |> Category.changeset(attrs) |> Repo.insert()
   def count_categories, do: Repo.aggregate(Category, :count)
 
+  def search_categories(text) do
+    Category
+    |> where([c], ilike(c.name, ^"%#{text}%"))
+    |> order_by([c], c.name)
+    |> select([c], {c.name, [c.id]})
+    |> Repo.all()
+  end
+
   # Warehouse functions
   def list_warehouses, do: Repo.all(FlagshipWarehouse)
 

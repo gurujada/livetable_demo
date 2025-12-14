@@ -16,13 +16,13 @@ defmodule DemoWeb.ProductsSimpleLive do
 
   def fields do
     [
-      sku: %{label: "SKU", sortable: false},
+      sku: %{label: "SKU", hidden: true},
       name: %{label: "Product Name", sortable: true, searchable: true},
       category: %{label: "Category", sortable: true, searchable: true},
-      brand: %{label: "Brand", searchable: true, sortable: false},
+      brand: %{label: "Brand", searchable: true},
       price: %{label: "Price", sortable: true, renderer: &format_price/1},
-      rating: %{label: "Rating", renderer: &render_rating/1, sortable: false},
-      in_stock: %{label: "In Stock", renderer: &render_stock/1, sortable: false}
+      rating: %{label: "Rating", renderer: &render_rating/1},
+      in_stock: %{label: "In Stock", renderer: &render_stock/1}
     ]
   end
 
@@ -87,20 +87,9 @@ defmodule DemoWeb.ProductsSimpleLive do
 
   def table_options do
     %{
-      pagination: %{
-        enabled: true,
-        sizes: [10, 25, 50],
-        default_size: 25
-      },
-      sorting: %{
-        enabled: true,
-        default_sort: [name: :asc]
-      },
-      search: %{
-        enabled: true,
-        debounce: 300,
-        placeholder: "Search products..."
-      },
+      pagination: %{default_size: 25},
+      sorting: %{default_sort: [name: :asc]},
+      search: %{placeholder: "Search products..."},
       fixed_header: true
     }
   end

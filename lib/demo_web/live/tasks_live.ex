@@ -10,13 +10,13 @@ defmodule DemoWeb.TasksLive do
 
   def fields do
     [
-      id: %{label: "ID", sortable: false},
+      id: %{label: "ID", hidden: true},
       title: %{label: "Title", sortable: true, searchable: true},
-      assigned_to: %{label: "Assigned To", sortable: false, searchable: true},
+      assigned_to: %{label: "Assigned To", searchable: true},
       due_date: %{label: "Due Date", sortable: true, renderer: &render_due_date/2},
-      is_completed: %{label: "Completed", sortable: false, renderer: &render_boolean/1},
-      is_urgent: %{label: "Urgent", sortable: false, renderer: &render_urgent/1},
-      is_archived: %{label: "Archived", sortable: false, renderer: &render_boolean/1}
+      is_completed: %{label: "Completed", renderer: &render_boolean/1},
+      is_urgent: %{label: "Urgent", renderer: &render_urgent/1},
+      is_archived: %{label: "Archived", renderer: &render_boolean/1}
     ]
   end
 
@@ -96,20 +96,9 @@ defmodule DemoWeb.TasksLive do
 
   def table_options do
     %{
-      pagination: %{
-        enabled: true,
-        sizes: [10, 25, 50],
-        default_size: 25
-      },
-      sorting: %{
-        enabled: true,
-        default_sort: [due_date: :asc]
-      },
-      search: %{
-        enabled: true,
-        debounce: 300,
-        placeholder: "Search tasks..."
-      }
+      pagination: %{default_size: 25},
+      sorting: %{default_sort: [due_date: :asc]},
+      search: %{placeholder: "Search tasks..."}
     }
   end
 

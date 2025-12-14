@@ -10,8 +10,8 @@ defmodule DemoWeb.ContactsLive do
     [
       id: %{label: "ID", sortable: true},
       name: %{label: "Name", sortable: true, searchable: true},
-      email: %{label: "Email", searchable: true, sortable: false},
-      phone: %{label: "Phone", sortable: false},
+      email: %{label: "Email", searchable: true},
+      phone: %{label: "Phone"},
       city: %{label: "City", sortable: true, searchable: true}
     ]
   end
@@ -24,8 +24,7 @@ defmodule DemoWeb.ContactsLive do
     %{
       label: "Actions",
       items: [
-        view: &view_action/1,
-        # email: &email_action/1
+        view: &view_action/1
       ]
     }
   end
@@ -56,18 +55,7 @@ defmodule DemoWeb.ContactsLive do
 
   def table_options do
     %{
-      pagination: %{
-        enabled: true,
-        sizes: [10, 25, 50],
-        default_size: 10
-      },
-      sorting: %{
-        enabled: true,
-        default_sort: [id: :asc]
-      },
       search: %{
-        enabled: true,
-        debounce: 300,
         placeholder: "Search contacts..."
       }
     }

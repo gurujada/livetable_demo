@@ -50,6 +50,7 @@ defmodule DemoWeb.Filters.RangeLive do
           min: -20,
           max: 50,
           step: 1,
+          pips: true,
           slider_options: %{
             tooltips: true
           }
@@ -61,7 +62,8 @@ defmodule DemoWeb.Filters.RangeLive do
           unit: "%",
           min: 0,
           max: 100,
-          step: 5
+          step: 5,
+          pips: true
         }),
       wind_speed:
         Range.new(:wind_speed, "wind_range", %{
@@ -70,7 +72,8 @@ defmodule DemoWeb.Filters.RangeLive do
           unit: "km/h",
           min: 0,
           max: 100,
-          step: 1
+          step: 1,
+          pips: true
         })
     ]
   end

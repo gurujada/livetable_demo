@@ -47,24 +47,22 @@ defmodule DemoWeb.LeadsLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
+      id: %{label: "ID", hidden: true},
       name: %{label: "Name", sortable: true, searchable: true},
       company_name: %{label: "Company", sortable: true, searchable: true},
       deal_value: %{label: "Deal Value", sortable: true, renderer: &format_deal_value/1},
       stage_name: %{
         label: "Stage",
         renderer: &render_stage/1,
-        sortable: false,
         assoc: {:stage, :name}
       },
-      source_name: %{label: "Source", sortable: false, assoc: {:source, :name}},
+      source_name: %{label: "Source", assoc: {:source, :name}},
       sales_rep_name: %{
         label: "Sales Rep",
         searchable: true,
-        sortable: false,
         assoc: {:sales_rep, :name}
       },
-      is_hot: %{label: "Hot", renderer: &render_hot/1, sortable: false},
+      is_hot: %{label: "Hot", renderer: &render_hot/1},
       last_contacted_at: %{
         label: "Last Contact",
         sortable: true,
@@ -82,16 +80,7 @@ defmodule DemoWeb.LeadsLive do
       days_since_contact:
         Transformer.new("days_since_contact", %{
           label: "Not Contacted In",
-          type: :select,
-          field: "days",
-          placeholder: "Any time",
-          options: [
-            %{label: "7+ days", value: "7"},
-            %{label: "14+ days", value: "14"},
-            %{label: "30+ days", value: "30"},
-            %{label: "60+ days", value: "60"},
-            %{label: "90+ days", value: "90"}
-          ],
+          render: &render_days_filter/1,
           query_transformer: &filter_by_days_since_contact/2
         }),
 
@@ -100,15 +89,7 @@ defmodule DemoWeb.LeadsLive do
       deal_tier:
         Transformer.new("deal_tier", %{
           label: "Deal Tier",
-          type: :select,
-          field: "tier",
-          placeholder: "All tiers",
-          options: [
-            %{label: "Small (< ₹1L)", value: "small"},
-            %{label: "Medium (₹1L - ₹5L)", value: "medium"},
-            %{label: "Large (₹5L - ₹20L)", value: "large"},
-            %{label: "Enterprise (> ₹20L)", value: "enterprise"}
-          ],
+          render: &render_tier_filter/1,
           query_transformer: &filter_by_deal_tier/2
         }),
 
@@ -117,40 +98,7 @@ defmodule DemoWeb.LeadsLive do
         Select.new({:stage, :name}, "stage", %{
           label: "Stage",
           mode: :tags,
-          options: [
-            %{label: "New", value: ["New"]},
-            %{label: "Contacted", value: ["Contacted"]},
-            %{label: "Qualified", value: ["Qualified"]},
-            %{label: "Proposal", value: ["Proposal"]},
-            %{label: "Negotiation", value: ["Negotiation"]},
-            %{label: "Won", value: ["Won"]},
-            %{label: "Lost", value: ["Lost"]}
-          ]
-        }),
-      source:
-        Select.new({:source, :name}, "source", %{
-          label: "Source",
-          mode: :tags,
-          options: [
-            %{label: "Website", value: ["Website"]},
-            %{label: "Referral", value: ["Referral"]},
-            %{label: "LinkedIn", value: ["LinkedIn"]},
-            %{label: "Trade Show", value: ["Trade Show"]},
-            %{label: "Cold Call", value: ["Cold Call"]},
-            %{label: "Google Ads", value: ["Google Ads"]}
-          ]
-        }),
-      territory:
-        Select.new({:sales_rep, :territory}, "territory", %{
-          label: "Territory",
-          mode: :tags,
-          options: [
-            %{label: "North", value: ["North"]},
-            %{label: "South", value: ["South"]},
-            %{label: "East", value: ["East"]},
-            %{label: "West", value: ["West"]},
-            %{label: "Central", value: ["Central"]}
-          ]
+          options_source: {Demo.Leads, :search_stages, []}
         }),
       deal_value:
         Range.new(:deal_value, "deal_value", %{
@@ -159,17 +107,13 @@ defmodule DemoWeb.LeadsLive do
           unit: "₹",
           min: 10000,
           max: 5_000_000,
-          step: 50000
+          step: 50000,
+          pips: true
         }),
       hot_leads:
         Boolean.new(:is_hot, "hot", %{
           label: "Hot Leads Only",
           condition: dynamic([l], l.is_hot == true)
-        }),
-      active_pipeline:
-        Boolean.new(:stage_id, "active_pipeline", %{
-          label: "Active Pipeline",
-          condition: dynamic([l, stage: s], s.name not in ["Won", "Lost"])
         })
     ]
   end
@@ -214,6 +158,39 @@ defmodule DemoWeb.LeadsLive do
 
   defp filter_by_deal_tier(query, _), do: query
 
+  defp render_days_filter(assigns) do
+    ~H"""
+    <div class="field">
+      <label class="block text-sm font-medium text-foreground mb-2">{@label}</label>
+      <select name={"filters[#{@key}][days]"} class="w-full">
+        <option value="">Any time</option>
+        <option value="7" selected={@value["days"] == "7"}>7+ days</option>
+        <option value="14" selected={@value["days"] == "14"}>14+ days</option>
+        <option value="30" selected={@value["days"] == "30"}>30+ days</option>
+        <option value="60" selected={@value["days"] == "60"}>60+ days</option>
+        <option value="90" selected={@value["days"] == "90"}>90+ days</option>
+      </select>
+    </div>
+    """
+  end
+
+  defp render_tier_filter(assigns) do
+    ~H"""
+    <div class="field">
+      <label class="block text-sm font-medium text-foreground mb-2">{@label}</label>
+      <select name={"filters[#{@key}][tier]"} class="w-full">
+        <option value="">All tiers</option>
+        <option value="small" selected={@value["tier"] == "small"}>Small (&lt; ₹1L)</option>
+        <option value="medium" selected={@value["tier"] == "medium"}>Medium (₹1L - ₹5L)</option>
+        <option value="large" selected={@value["tier"] == "large"}>Large (₹5L - ₹20L)</option>
+        <option value="enterprise" selected={@value["tier"] == "enterprise"}>
+          Enterprise (&gt; ₹20L)
+        </option>
+      </select>
+    </div>
+    """
+  end
+
   # === ACTIONS ===
 
   def actions do
@@ -252,9 +229,9 @@ defmodule DemoWeb.LeadsLive do
 
   def table_options do
     %{
-      pagination: %{enabled: true, sizes: [10, 25, 50, 100], default_size: 25},
-      sorting: %{enabled: true, default_sort: [deal_value: :desc]},
-      search: %{enabled: true, debounce: 300, placeholder: "Search leads..."}
+      pagination: %{sizes: [10, 25, 50, 100], default_size: 25},
+      sorting: %{default_sort: [deal_value: :desc]},
+      search: %{placeholder: "Search leads..."}
     }
   end
 

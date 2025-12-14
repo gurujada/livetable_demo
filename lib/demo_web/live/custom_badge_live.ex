@@ -33,7 +33,6 @@ defmodule DemoWeb.CustomBadgeLive do
       },
       active: %{
         label: "Status",
-        sortable: false,
         renderer: &status_badge/1
       }
     ]

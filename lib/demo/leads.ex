@@ -36,6 +36,14 @@ defmodule Demo.Leads do
   def create_stage(attrs), do: %Stage{} |> Stage.changeset(attrs) |> Repo.insert()
   def count_stages, do: Repo.aggregate(Stage, :count)
 
+  def search_stages(text) do
+    Stage
+    |> where([s], ilike(s.name, ^"%#{text}%"))
+    |> order_by([s], s.position)
+    |> select([s], {s.name, [s.id]})
+    |> Repo.all()
+  end
+
   # Sales rep functions
   def list_sales_reps, do: Repo.all(from sr in SalesRep, where: sr.is_active == true)
   def create_sales_rep(attrs), do: %SalesRep{} |> SalesRep.changeset(attrs) |> Repo.insert()

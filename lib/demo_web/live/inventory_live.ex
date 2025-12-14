@@ -44,20 +44,19 @@ defmodule DemoWeb.InventoryLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
-      sku: %{label: "SKU", searchable: true, sortable: false},
+      id: %{label: "ID", hidden: true},
+      sku: %{label: "SKU", searchable: true},
       name: %{label: "Product", sortable: true, searchable: true},
       quantity: %{label: "Qty", sortable: true, renderer: &render_quantity/2},
-      unit_cost: %{label: "Cost", renderer: &format_cost/1, sortable: false},
+      unit_cost: %{label: "Cost", renderer: &format_cost/1},
       selling_price: %{label: "Price", sortable: true, renderer: &format_price/1},
-      profit_margin: %{label: "Margin", renderer: &render_margin/1, sortable: false},
-      stock_value: %{label: "Stock Value", renderer: &format_stock_value/1, sortable: false},
+      profit_margin: %{label: "Margin", renderer: &render_margin/1},
+      stock_value: %{label: "Stock Value", renderer: &format_stock_value/1},
       warehouse_name: %{label: "Warehouse", sortable: true, assoc: {:warehouse, :name}},
-      warehouse_region: %{label: "Region", assoc: {:warehouse, :region}, sortable: false},
+      warehouse_region: %{label: "Region", assoc: {:warehouse, :region}},
       supplier_name: %{
         label: "Supplier",
         searchable: true,
-        sortable: false,
         assoc: {:supplier, :name}
       }
     ]
@@ -69,13 +68,7 @@ defmodule DemoWeb.InventoryLive do
         Select.new({:warehouse, :region}, "region", %{
           label: "Region",
           mode: :tags,
-          options: [
-            %{label: "North", value: ["North"]},
-            %{label: "South", value: ["South"]},
-            %{label: "East", value: ["East"]},
-            %{label: "West", value: ["West"]},
-            %{label: "Central", value: ["Central"]}
-          ]
+          options_source: {Demo.Inventory, :search_warehouses_by_region, []}
         }),
       quantity_range:
         Range.new(:quantity, "quantity_range", %{
@@ -83,7 +76,8 @@ defmodule DemoWeb.InventoryLive do
           label: "Quantity",
           min: 0,
           max: 1000,
-          step: 50, pips: true
+          step: 50,
+          pips: true
         }),
       price_range:
         Range.new(:selling_price, "price_range", %{
@@ -92,7 +86,8 @@ defmodule DemoWeb.InventoryLive do
           unit: "₹",
           min: 100,
           max: 10000,
-          step: 100, pips: true
+          step: 100,
+          pips: true
         }),
       low_stock:
         Boolean.new(:quantity, "low_stock", %{
@@ -148,9 +143,9 @@ defmodule DemoWeb.InventoryLive do
 
   def table_options do
     %{
-      pagination: %{enabled: true, sizes: [10, 25, 50, 100], default_size: 25},
-      sorting: %{enabled: true, default_sort: [name: :asc]},
-      search: %{enabled: true, debounce: 300, placeholder: "Search inventory..."}
+      pagination: %{sizes: [10, 25, 50, 100], default_size: 25},
+      sorting: %{default_sort: [name: :asc]},
+      search: %{placeholder: "Search inventory..."}
     }
   end
 

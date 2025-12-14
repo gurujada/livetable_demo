@@ -17,7 +17,7 @@ defmodule DemoWeb.PostLive.Index do
     [
       id: %{label: "ID", sortable: true},
       body: %{label: "Body", sortable: true},
-      inserted_at: %{label: "Inserted At", sortable: false}
+      inserted_at: %{label: "Inserted At"}
     ]
   end
 

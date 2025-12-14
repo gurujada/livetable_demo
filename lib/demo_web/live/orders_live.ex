@@ -16,14 +16,14 @@ defmodule DemoWeb.OrdersLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
+      id: %{label: "ID", hidden: true},
       order_number: %{label: "Order #", sortable: true, searchable: true},
       customer_name: %{label: "Customer", sortable: true, searchable: true},
-      city: %{label: "City", searchable: true, sortable: false},
-      status: %{label: "Status", renderer: &render_status/1, sortable: false},
-      payment_status: %{label: "Payment", renderer: &render_payment_status/1, sortable: false},
+      city: %{label: "City", searchable: true},
+      status: %{label: "Status", renderer: &render_status/1},
+      payment_status: %{label: "Payment", renderer: &render_payment_status/1},
       total_amount: %{label: "Amount", sortable: true, renderer: &format_amount/1},
-      items_count: %{label: "Items", sortable: false},
+      items_count: %{label: "Items"},
       order_date: %{label: "Date", sortable: true, renderer: &format_date/1}
     ]
   end
@@ -39,7 +39,8 @@ defmodule DemoWeb.OrdersLive do
           unit: "₹",
           min: 500,
           max: 100_000,
-          step: 1000
+          step: 1000,
+          pips: true
         }),
       # NOTE: Date Range filters are NOT supported by LiveTable (Range only supports :number)
       # See database_tasks.md for details
@@ -103,20 +104,9 @@ defmodule DemoWeb.OrdersLive do
 
   def table_options do
     %{
-      pagination: %{
-        enabled: true,
-        sizes: [10, 25, 50, 100],
-        default_size: 25
-      },
-      sorting: %{
-        enabled: true,
-        default_sort: [order_date: :desc]
-      },
-      search: %{
-        enabled: true,
-        debounce: 300,
-        placeholder: "Search orders..."
-      }
+      pagination: %{sizes: [10, 25, 50, 100], default_size: 25},
+      sorting: %{default_sort: [order_date: :desc]},
+      search: %{placeholder: "Search orders..."}
     }
   end
 

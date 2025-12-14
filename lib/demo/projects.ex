@@ -39,5 +39,13 @@ defmodule Demo.Projects do
 
   def count_project_types, do: Repo.aggregate(ProjectType, :count)
 
+  def search_project_types(text) do
+    ProjectType
+    |> where([pt], ilike(pt.name, ^"%#{text}%"))
+    |> order_by([pt], pt.name)
+    |> select([pt], {pt.name, [pt.id]})
+    |> Repo.all()
+  end
+
   def statuses, do: ~w(planning active on_hold completed cancelled)
 end

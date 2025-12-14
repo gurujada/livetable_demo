@@ -38,6 +38,15 @@ defmodule Demo.Inventory do
 
   def count_warehouses, do: Repo.aggregate(Warehouse, :count)
 
+  def search_warehouses_by_region(text) do
+    # Get all warehouse IDs grouped by region
+    Warehouse
+    |> where([w], ilike(w.region, ^"%#{text}%"))
+    |> group_by([w], w.region)
+    |> select([w], {w.region, fragment("array_agg(?)", w.id)})
+    |> Repo.all()
+  end
+
   # Supplier functions
   def list_suppliers, do: Repo.all(Supplier)
   def get_supplier!(id), do: Repo.get!(Supplier, id)

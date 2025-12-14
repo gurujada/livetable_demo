@@ -47,8 +47,8 @@ defmodule DemoWeb.FlagshipLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
-      sku: %{label: "SKU", searchable: true, sortable: false},
+      id: %{label: "ID", hidden: true},
+      sku: %{label: "SKU", searchable: true},
       name: %{label: "Product", sortable: true, searchable: true},
       brand_name: %{label: "Brand", sortable: true, searchable: true, assoc: {:brand, :name}},
       category_name: %{
@@ -58,12 +58,12 @@ defmodule DemoWeb.FlagshipLive do
         assoc: {:category, :name}
       },
       price: %{label: "Price", sortable: true, renderer: &format_price/1},
-      cost: %{label: "Cost", renderer: &format_cost/1, sortable: false},
-      profit_margin: %{label: "Margin", renderer: &render_margin/1, sortable: false},
+      cost: %{label: "Cost", renderer: &format_cost/1},
+      profit_margin: %{label: "Margin", renderer: &render_margin/1},
       stock_quantity: %{label: "Stock", sortable: true, renderer: &render_stock/1},
-      status: %{label: "Status", renderer: &render_status/1, sortable: false},
-      rating: %{label: "Rating", renderer: &render_rating/1, sortable: false},
-      warehouse_region: %{label: "Region", sortable: false, assoc: {:warehouse, :region}}
+      status: %{label: "Status", renderer: &render_status/1},
+      rating: %{label: "Rating", renderer: &render_rating/1},
+      warehouse_region: %{label: "Region", assoc: {:warehouse, :region}}
     ]
   end
 
@@ -75,28 +75,7 @@ defmodule DemoWeb.FlagshipLive do
         Select.new({:category, :name}, "category", %{
           label: "Category",
           mode: :tags,
-          options: [
-            %{label: "Electronics", value: ["Electronics"]},
-            %{label: "Clothing", value: ["Clothing"]},
-            %{label: "Home & Kitchen", value: ["Home & Kitchen"]},
-            %{label: "Sports", value: ["Sports"]},
-            %{label: "Books", value: ["Books"]},
-            %{label: "Beauty", value: ["Beauty"]},
-            %{label: "Toys", value: ["Toys"]},
-            %{label: "Automotive", value: ["Automotive"]}
-          ]
-        }),
-      region:
-        Select.new({:warehouse, :region}, "region", %{
-          label: "Region",
-          mode: :tags,
-          options: [
-            %{label: "North", value: ["North"]},
-            %{label: "South", value: ["South"]},
-            %{label: "East", value: ["East"]},
-            %{label: "West", value: ["West"]},
-            %{label: "Central", value: ["Central"]}
-          ]
+          options_source: {Demo.Flagship, :search_categories, []}
         }),
       price_range:
         Range.new(:price, "price_range", %{
@@ -106,16 +85,8 @@ defmodule DemoWeb.FlagshipLive do
           max: 100_000,
           step: 1000,
           default_min: 100,
-          default_max: 100_000
-        }),
-      stock_range:
-        Range.new(:stock_quantity, "stock_range", %{
-          label: "Stock Quantity",
-          min: 0,
-          max: 1000,
-          step: 50,
-          default_min: 0,
-          default_max: 1000
+          default_max: 100_000,
+          pips: true
         }),
       featured:
         Boolean.new(:is_featured, "featured", %{
@@ -127,20 +98,10 @@ defmodule DemoWeb.FlagshipLive do
           label: "In Stock Only",
           condition: dynamic([p], p.stock_quantity > 0)
         }),
-      high_margin:
-        Boolean.new(:price, "high_margin", %{
-          label: "High Margin (30%+)",
-          condition: dynamic([p], (p.price - p.cost) / p.cost >= 0.3)
-        }),
       high_rated:
         Boolean.new(:rating, "high_rated", %{
           label: "High Rated (4+)",
           condition: dynamic([p], p.rating >= 4.0)
-        }),
-      low_stock:
-        Boolean.new(:stock_quantity, "low_stock", %{
-          label: "Low Stock (<50)",
-          condition: dynamic([p], p.stock_quantity < 50 and p.stock_quantity > 0)
         })
     ]
   end
@@ -182,23 +143,19 @@ defmodule DemoWeb.FlagshipLive do
   def table_options do
     %{
       pagination: %{
-        enabled: true,
-        sizes: [25, 50, 100, 250],
+        sizes: [25, 50],
         default_size: 50
       },
       sorting: %{
-        enabled: true,
         default_sort: [inserted_at: :desc]
       },
       search: %{
-        enabled: true,
-        debounce: 300,
         placeholder: "Search 100K products..."
       },
       exports: %{
-        enabled: true,
         formats: [:csv]
-      }
+      },
+      fixed_header: true
     }
   end
 

@@ -40,7 +40,7 @@ defmodule DemoWeb.InvoicesLive do
 
   def fields do
     [
-      id: %{label: "ID", hidden: true, sortable: false},
+      id: %{label: "ID", hidden: true},
       invoice_number: %{label: "Invoice #", sortable: true, searchable: true},
       customer_name: %{
         label: "Customer",
@@ -48,14 +48,14 @@ defmodule DemoWeb.InvoicesLive do
         searchable: true,
         assoc: {:customer, :name}
       },
-      customer_city: %{label: "City", assoc: {:customer, :city}, sortable: false},
-      amount: %{label: "Amount", renderer: &format_amount/1, sortable: false},
-      tax_amount: %{label: "Tax", renderer: &format_tax/1, sortable: false},
+      customer_city: %{label: "City", assoc: {:customer, :city}},
+      amount: %{label: "Amount", renderer: &format_amount/1},
+      tax_amount: %{label: "Tax", renderer: &format_tax/1},
       total: %{label: "Total", sortable: true, renderer: &format_total/1},
-      status: %{label: "Status", renderer: &render_status/1, sortable: false},
-      payment_term_name: %{label: "Payment Terms", assoc: {:payment_term, :name}, sortable: false},
+      status: %{label: "Status", renderer: &render_status/1},
+      payment_term_name: %{label: "Payment Terms", assoc: {:payment_term, :name}},
       issue_date: %{label: "Issue Date", sortable: true, renderer: &format_date/1},
-      due_date: %{label: "Due Date", renderer: &render_due_date/1, sortable: false}
+      due_date: %{label: "Due Date", renderer: &render_due_date/1}
     ]
   end
 
@@ -126,9 +126,9 @@ defmodule DemoWeb.InvoicesLive do
 
   def table_options do
     %{
-      pagination: %{enabled: true, sizes: [10, 25, 50], default_size: 50},
-      sorting: %{enabled: true, default_sort: [issue_date: :desc]},
-      search: %{enabled: true, debounce: 300, placeholder: "Search invoices..."},
+      pagination: %{default_size: 50},
+      sorting: %{default_sort: [issue_date: :desc]},
+      search: %{placeholder: "Search invoices..."},
       fixed_header: true
     }
   end
