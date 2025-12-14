@@ -69,6 +69,7 @@ config :logger, :default_formatter,
 config :phoenix, :json_library, Jason
 
 config :live_table,
+  app: :demo,
   repo: Demo.Repo,
   pubsub: Demo.PubSub,
   defaults: %{exports: %{enabled: false}}
