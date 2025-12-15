@@ -9,7 +9,7 @@ defmodule DemoWeb.Layouts do
   """
   use DemoWeb, :html
 
-  embed_templates "layouts/*"
+  embed_templates("layouts/*")
 
   @demos [
     %{path: "/contacts", name: "Contacts", number: 1, badge: "500", desc: "Basic table"},
@@ -34,15 +34,16 @@ defmodule DemoWeb.Layouts do
   @doc """
   Renders the app layout with navbar navigation.
   """
-  attr :flash, :map, required: true, doc: "the map of flash messages"
+  attr(:flash, :map, required: true, doc: "the map of flash messages")
 
-  attr :current_scope, :map,
+  attr(:current_scope, :map,
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
+  )
 
-  attr :current_path, :string, default: nil, doc: "the current request path"
+  attr(:current_path, :string, default: nil, doc: "the current request path")
 
-  slot :inner_block, required: true
+  slot(:inner_block, required: true)
 
   def app(assigns) do
     assigns = assign(assigns, :demos, @demos)
@@ -52,7 +53,7 @@ defmodule DemoWeb.Layouts do
       <!-- Background pattern -->
       <div class="fixed inset-0 bg-dot-pattern opacity-50 pointer-events-none" />
       <div class="fixed inset-0 bg-gradient-mesh pointer-events-none" />
-
+      
     <!-- Navbar -->
       <nav class="navbar sticky top-0 z-50 border-b border-border/50 bg-background/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,16 +67,16 @@ defmodule DemoWeb.Layouts do
                 LiveTable <span class="font-normal text-muted-foreground">Demo</span>
               </span>
             </a>
-
+            
     <!-- Center nav - Demos dropdown using SutraUI -->
             <div class="hidden sm:flex items-center gap-1">
               <.dropdown_menu id="demos-dropdown" align="center">
                 <:trigger>
                   <span class="font-medium">Demos</span>
                 </:trigger>
-                <:label>10 Progressive Demos</:label>
-                <:separator />
-                <:item :for={demo <- @demos}>
+                <.dropdown_label>10 Progressive Demos</.dropdown_label>
+                <.dropdown_separator />
+                <.dropdown_item :for={demo <- @demos}>
                   <a
                     href={demo.path}
                     class={[
@@ -93,10 +94,10 @@ defmodule DemoWeb.Layouts do
                     </span>
                     <span class="flex-1">{demo.name}</span>
                   </a>
-                </:item>
+                </.dropdown_item>
               </.dropdown_menu>
             </div>
-
+            
     <!-- Right side -->
             <div class="flex items-center gap-2">
               <a
@@ -123,7 +124,7 @@ defmodule DemoWeb.Layouts do
           </div>
         </div>
       </nav>
-
+      
     <!-- Mobile demo nav -->
       <div class="sm:hidden border-b border-border/50 bg-background/60 backdrop-blur-sm overflow-x-auto">
         <div class="flex gap-1 px-4 py-2">
@@ -137,12 +138,12 @@ defmodule DemoWeb.Layouts do
           </a>
         </div>
       </div>
-
+      
     <!-- Main content -->
       <main class="relative">
         {render_slot(@inner_block)}
       </main>
-
+      
     <!-- Footer -->
       <footer class="relative border-t border-border/50 bg-background/60 backdrop-blur-sm mt-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -199,8 +200,8 @@ defmodule DemoWeb.Layouts do
 
       <.flash_group flash={@flash} />
   """
-  attr :flash, :map, required: true, doc: "the map of flash messages"
-  attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
+  attr(:flash, :map, required: true, doc: "the map of flash messages")
+  attr(:id, :string, default: "flash-group", doc: "the optional id of flash container")
 
   def flash_group(assigns) do
     ~H"""
@@ -217,7 +218,7 @@ defmodule DemoWeb.Layouts do
           <p class="font-semibold">{gettext("We can't find the internet")}</p>
           <p class="text-sm flex items-center gap-1 opacity-90">
             {gettext("Attempting to reconnect")}
-            <.icon name="lucide-loader-2" class="size-3 animate-spin" />
+            <.icon name="lucide-loader-circle" class="size-3 animate-spin" />
           </p>
         </div>
       </div>
@@ -231,7 +232,7 @@ defmodule DemoWeb.Layouts do
           <p class="font-semibold">{gettext("Something went wrong!")}</p>
           <p class="text-sm flex items-center gap-1 opacity-90">
             {gettext("Attempting to reconnect")}
-            <.icon name="lucide-loader-2" class="size-3 animate-spin" />
+            <.icon name="lucide-loader-circle" class="size-3 animate-spin" />
           </p>
         </div>
       </div>
@@ -239,8 +240,8 @@ defmodule DemoWeb.Layouts do
     """
   end
 
-  attr :kind, :atom, required: true
-  attr :flash, :map, required: true
+  attr(:kind, :atom, required: true)
+  attr(:flash, :map, required: true)
 
   defp flash_message(assigns) do
     ~H"""
@@ -252,7 +253,7 @@ defmodule DemoWeb.Layouts do
       ]}
       role="alert"
     >
-      <.icon name={if @kind == :info, do: "lucide-info", else: "lucide-alert-circle"} class="size-5" />
+      <.icon name={if @kind == :info, do: "lucide-info", else: "lucide-circle-alert"} class="size-5" />
       <p class="font-medium">{Phoenix.Flash.get(@flash, @kind)}</p>
       <button
         type="button"
@@ -268,11 +269,11 @@ defmodule DemoWeb.Layouts do
   @doc """
   Renders a page header for demo pages.
   """
-  attr :number, :integer, required: true, doc: "Demo number (1-10)"
-  attr :title, :string, required: true, doc: "Page title"
-  attr :rows, :string, required: true, doc: "Number of rows badge text"
-  attr :description, :string, required: true, doc: "Page description"
-  attr :featured, :boolean, default: false, doc: "Whether this is the featured flagship demo"
+  attr(:number, :integer, required: true, doc: "Demo number (1-10)")
+  attr(:title, :string, required: true, doc: "Page title")
+  attr(:rows, :string, required: true, doc: "Number of rows badge text")
+  attr(:description, :string, required: true, doc: "Page description")
+  attr(:featured, :boolean, default: false, doc: "Whether this is the featured flagship demo")
 
   def page_header(assigns) do
     ~H"""

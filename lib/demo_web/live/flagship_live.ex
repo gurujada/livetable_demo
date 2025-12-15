@@ -151,6 +151,7 @@ defmodule DemoWeb.FlagshipLive do
         placeholder: "Search 100K products..."
       },
       exports: %{
+      enabled: true,
         formats: [:csv]
       },
       fixed_header: true
