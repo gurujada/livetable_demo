@@ -66,7 +66,13 @@ defmodule Demo.MixProject do
       {:oban, "~> 2.19"},
       {:oban_web, "~> 2.11"},
       {:igniter, "~> 0.7"},
-      {:faker, "~> 0.17"}
+      {:lucide_icons,
+       github: "lucide-icons/lucide",
+       tag: "0.552.0",
+       sparse: "icons",
+       app: false,
+       compile: false,
+       depth: 1}
     ]
   end
 

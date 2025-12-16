@@ -87,7 +87,7 @@ defmodule DemoWeb do
 
       # SutraUI components (replaces CoreComponents)
       use SutraUI
-
+      import DemoWeb.CoreComponents
       # Common modules used in templates
       alias Phoenix.LiveView.JS
       alias DemoWeb.Layouts

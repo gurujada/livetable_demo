@@ -356,7 +356,7 @@ IO.puts("  Creating clients...")
 industries = ~w(Technology Finance Healthcare Retail Manufacturing Education Media Consulting)
 
 clients =
-  for i <- 1..200 do
+  for _i <- 1..200 do
     {city, _state} = SeedData.random_city_state()
 
     %{
@@ -421,10 +421,9 @@ projects =
 
 SeedHelpers.insert_batch(Demo.Projects.Project, projects)
 
-# Demo 10: Flagship (1M rows - but we'll do 100K for reasonable seeding time)
-# For the actual 1M demo, this can be scaled up
-IO.puts("Seeding Demo 10: Flagship (100000 rows)...")
-IO.puts("  Note: Seeding 100K rows for demo. Scale to 1M in production.")
+# Demo 10: Flagship (1M rows)
+IO.puts("Seeding Demo 10: Flagship (1,000,000 rows)...")
+IO.puts("  This will take a few minutes...")
 
 # Create brands
 IO.puts("  Creating brands...")
@@ -504,11 +503,11 @@ SeedHelpers.insert_batch(Demo.Flagship.FlagshipWarehouse, flagship_warehouses)
 flagship_warehouse_ids = Repo.all(Demo.Flagship.FlagshipWarehouse) |> Enum.map(& &1.id)
 
 # Create flagship products
-IO.puts("  Creating flagship products (100000 rows in batches)...")
+IO.puts("  Creating flagship products (1,000,000 rows in batches)...")
 
 # Generate products in larger batches for efficiency
-total_products = 100_000
-batch_size = 10_000
+total_products = 1_000_000
+batch_size = 1_000
 
 for batch_num <- 1..div(total_products, batch_size) do
   IO.puts("    Batch #{batch_num}/#{div(total_products, batch_size)}...")
@@ -540,7 +539,7 @@ for batch_num <- 1..div(total_products, batch_size) do
       }
     end
 
-  SeedHelpers.insert_batch(Demo.Flagship.Product, products, 2000)
+  SeedHelpers.insert_batch(Demo.Flagship.Product, products, 5000)
 end
 
 IO.puts("\nDemo seeding complete!")

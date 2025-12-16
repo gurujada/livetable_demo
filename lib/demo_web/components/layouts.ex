@@ -53,7 +53,7 @@ defmodule DemoWeb.Layouts do
       <!-- Background pattern -->
       <div class="fixed inset-0 bg-dot-pattern opacity-50 pointer-events-none" />
       <div class="fixed inset-0 bg-gradient-mesh pointer-events-none" />
-      
+
     <!-- Navbar -->
       <nav class="navbar sticky top-0 z-50 border-b border-border/50 bg-background/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,7 +67,7 @@ defmodule DemoWeb.Layouts do
                 LiveTable <span class="font-normal text-muted-foreground">Demo</span>
               </span>
             </a>
-            
+
     <!-- Center nav - Demos dropdown using SutraUI -->
             <div class="hidden sm:flex items-center gap-1">
               <.dropdown_menu id="demos-dropdown" align="center">
@@ -97,7 +97,7 @@ defmodule DemoWeb.Layouts do
                 </.dropdown_item>
               </.dropdown_menu>
             </div>
-            
+
     <!-- Right side -->
             <div class="flex items-center gap-2">
               <a
@@ -124,7 +124,7 @@ defmodule DemoWeb.Layouts do
           </div>
         </div>
       </nav>
-      
+
     <!-- Mobile demo nav -->
       <div class="sm:hidden border-b border-border/50 bg-background/60 backdrop-blur-sm overflow-x-auto">
         <div class="flex gap-1 px-4 py-2">
@@ -138,12 +138,12 @@ defmodule DemoWeb.Layouts do
           </a>
         </div>
       </div>
-      
+
     <!-- Main content -->
       <main class="relative">
         {render_slot(@inner_block)}
       </main>
-      
+
     <!-- Footer -->
       <footer class="relative border-t border-border/50 bg-background/60 backdrop-blur-sm mt-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -182,6 +182,15 @@ defmodule DemoWeb.Layouts do
                 class="hover:text-foreground transition-colors"
               >
                 GitHub
+              </a>
+              <span class="text-border">|</span>
+              <a
+                href="https://github.com/gurujada/livetable_demo"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-foreground transition-colors"
+              >
+                Demo
               </a>
             </div>
           </div>
