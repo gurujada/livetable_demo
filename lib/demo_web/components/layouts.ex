@@ -9,6 +9,11 @@ defmodule DemoWeb.Layouts do
   """
   use DemoWeb, :html
 
+  defp live_table_version, do: "0.4.1"
+
+  defp live_table_changelog_url,
+    do: "https://github.com/gurujada/live_table/blob/master/CHANGELOG.md"
+
   embed_templates("layouts/*")
 
   @demos [
@@ -53,21 +58,32 @@ defmodule DemoWeb.Layouts do
       <!-- Background pattern -->
       <div class="fixed inset-0 bg-dot-pattern opacity-50 pointer-events-none" />
       <div class="fixed inset-0 bg-gradient-mesh pointer-events-none" />
-
+      
     <!-- Navbar -->
       <nav class="navbar sticky top-0 z-50 border-b border-border/50 bg-background/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between h-16">
             <!-- Logo -->
-            <a href="/" class="flex items-center gap-3 group">
-              <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 text-white font-mono font-bold text-lg shadow-lg group-hover:shadow-cyan-500/25 transition-shadow">
-                LT
-              </div>
-              <span class="hidden sm:inline font-bold text-lg text-foreground tracking-tight">
-                LiveTable <span class="font-normal text-muted-foreground">Demo</span>
-              </span>
-            </a>
-
+            <div class="flex items-center gap-3">
+              <a href="/" class="flex items-center gap-3 group">
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 text-white font-mono font-bold text-lg shadow-lg group-hover:shadow-cyan-500/25 transition-shadow">
+                  LT
+                </div>
+                <span class="hidden sm:inline font-bold text-lg text-foreground tracking-tight">
+                  LiveTable <span class="font-normal text-muted-foreground">Demo</span>
+                </span>
+              </a>
+              <a
+                href={live_table_changelog_url()}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hidden sm:inline-flex items-center rounded-md border border-border/60 bg-muted/40 px-2 py-0.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                aria-label="View LiveTable changelog"
+              >
+                v{live_table_version()}
+              </a>
+            </div>
+            
     <!-- Center nav - Demos dropdown using SutraUI -->
             <div class="hidden sm:flex items-center gap-1">
               <.dropdown_menu id="demos-dropdown" align="center">
@@ -97,7 +113,7 @@ defmodule DemoWeb.Layouts do
                 </.dropdown_item>
               </.dropdown_menu>
             </div>
-
+            
     <!-- Right side -->
             <div class="flex items-center gap-2">
               <a
@@ -124,7 +140,7 @@ defmodule DemoWeb.Layouts do
           </div>
         </div>
       </nav>
-
+      
     <!-- Mobile demo nav -->
       <div class="sm:hidden border-b border-border/50 bg-background/60 backdrop-blur-sm overflow-x-auto">
         <div class="flex gap-1 px-4 py-2">
@@ -138,12 +154,12 @@ defmodule DemoWeb.Layouts do
           </a>
         </div>
       </div>
-
+      
     <!-- Main content -->
       <main class="relative">
         {render_slot(@inner_block)}
       </main>
-
+      
     <!-- Footer -->
       <footer class="relative border-t border-border/50 bg-background/60 backdrop-blur-sm mt-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -182,6 +198,15 @@ defmodule DemoWeb.Layouts do
                 class="hover:text-foreground transition-colors"
               >
                 GitHub
+              </a>
+              <span class="text-border">|</span>
+              <a
+                href={live_table_changelog_url()}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-foreground transition-colors"
+              >
+                v{live_table_version()}
               </a>
               <span class="text-border">|</span>
               <a

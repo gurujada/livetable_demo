@@ -27,12 +27,12 @@ defmodule Demo.Flagship do
   def count_products, do: Repo.aggregate(Product, :count)
 
   # Brand functions
-  def list_brands, do: Repo.all(from b in Brand, where: b.is_active == true, order_by: b.name)
+  def list_brands, do: Repo.all(from(b in Brand, where: b.is_active == true, order_by: b.name))
   def create_brand(attrs), do: %Brand{} |> Brand.changeset(attrs) |> Repo.insert()
   def count_brands, do: Repo.aggregate(Brand, :count)
 
   # Category functions
-  def list_categories, do: Repo.all(from c in Category, order_by: c.name)
+  def list_categories, do: Repo.all(from(c in Category, order_by: c.name))
   def create_category(attrs), do: %Category{} |> Category.changeset(attrs) |> Repo.insert()
   def count_categories, do: Repo.aggregate(Category, :count)
 
@@ -40,7 +40,7 @@ defmodule Demo.Flagship do
     Category
     |> where([c], ilike(c.name, ^"%#{text}%"))
     |> order_by([c], c.name)
-    |> select([c], {c.name, [c.id]})
+    |> select([c], {c.name, c.name})
     |> Repo.all()
   end
 

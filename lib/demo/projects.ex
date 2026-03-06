@@ -43,7 +43,7 @@ defmodule Demo.Projects do
     ProjectType
     |> where([pt], ilike(pt.name, ^"%#{text}%"))
     |> order_by([pt], pt.name)
-    |> select([pt], {pt.name, [pt.id]})
+    |> select([pt], {pt.name, pt.name})
     |> Repo.all()
   end
 

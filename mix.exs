@@ -47,11 +47,11 @@ defmodule Demo.MixProject do
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
 
       # UI Libraries
-      # Published: use from hex.pm
-      {:sutra_ui, "~> 0.1"},
-      {:live_table, "~> 0.4"},
+      # Published: use git/GitHub
+      {:sutra_ui, git: "git@github.com:gurujada/sutra_ui.git", override: true},
+      {:live_table, git: "git@github.com:gurujada/live_table.git"},
       # Local development: use from parent folder (to test unreleased features)
-      # {:sutra_ui, path: "../sutra_ui"},
+      # {:sutra_ui, path: "../sutra_ui", override: true},
       # {:live_table, path: "../live_table", override: true},
 
       # Utilities

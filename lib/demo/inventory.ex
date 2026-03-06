@@ -39,11 +39,12 @@ defmodule Demo.Inventory do
   def count_warehouses, do: Repo.aggregate(Warehouse, :count)
 
   def search_warehouses_by_region(text) do
-    # Get all warehouse IDs grouped by region
+    # Region filter matches on warehouse.region, so value must be region string
     Warehouse
     |> where([w], ilike(w.region, ^"%#{text}%"))
-    |> group_by([w], w.region)
-    |> select([w], {w.region, fragment("array_agg(?)", w.id)})
+    |> distinct([w], w.region)
+    |> order_by([w], w.region)
+    |> select([w], {w.region, w.region})
     |> Repo.all()
   end
 

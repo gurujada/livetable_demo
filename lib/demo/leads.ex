@@ -32,7 +32,7 @@ defmodule Demo.Leads do
   def count_sources, do: Repo.aggregate(Source, :count)
 
   # Stage functions
-  def list_stages, do: Repo.all(from s in Stage, order_by: s.position)
+  def list_stages, do: Repo.all(from(s in Stage, order_by: s.position))
   def create_stage(attrs), do: %Stage{} |> Stage.changeset(attrs) |> Repo.insert()
   def count_stages, do: Repo.aggregate(Stage, :count)
 
@@ -40,12 +40,12 @@ defmodule Demo.Leads do
     Stage
     |> where([s], ilike(s.name, ^"%#{text}%"))
     |> order_by([s], s.position)
-    |> select([s], {s.name, [s.id]})
+    |> select([s], {s.name, s.name})
     |> Repo.all()
   end
 
   # Sales rep functions
-  def list_sales_reps, do: Repo.all(from sr in SalesRep, where: sr.is_active == true)
+  def list_sales_reps, do: Repo.all(from(sr in SalesRep, where: sr.is_active == true))
   def create_sales_rep(attrs), do: %SalesRep{} |> SalesRep.changeset(attrs) |> Repo.insert()
   def count_sales_reps, do: Repo.aggregate(SalesRep, :count)
 end
