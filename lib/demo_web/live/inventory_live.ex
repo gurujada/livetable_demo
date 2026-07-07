@@ -72,21 +72,23 @@ defmodule DemoWeb.InventoryLive do
         }),
       quantity_range:
         Range.new(:quantity, "quantity_range", %{
-          type: :number,
           label: "Quantity",
           min: 0,
           max: 1000,
           step: 50,
+          default_min: 0,
+          default_max: 1000,
           pips: true
         }),
       price_range:
         Range.new(:selling_price, "price_range", %{
-          type: :number,
           label: "Selling Price",
           unit: "₹",
           min: 100,
           max: 10000,
           step: 100,
+          default_min: 100,
+          default_max: 10000,
           pips: true
         }),
       low_stock:

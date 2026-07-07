@@ -1,11 +1,7 @@
 defmodule DemoWeb.OrdersLive do
   @moduledoc """
-  Demo 5: All Filters Combined - Orders
-  Demonstrates: boolean, range, and select filters combined (5,000 rows).
-
-  TODO: status, payment_status, and state are currently plain string fields.
-  Select filters require proper relationships (belongs_to lookup tables) to work correctly.
-  See database_tasks.md for the required schema changes.
+  Demo 5: Combined Filters - Orders
+  Demonstrates: range and boolean filters combined with 5,000 rows.
   """
   use DemoWeb, :live_view
   use LiveTable.LiveResource, schema: Demo.Orders.Order
@@ -32,15 +28,16 @@ defmodule DemoWeb.OrdersLive do
     [
       amount_range:
         Range.new(:total_amount, "amount_range", %{
-          type: :number,
           label: "Order Amount",
           unit: "₹",
           min: 500,
           max: 100_000,
           step: 1000,
+          default_min: 500,
+          default_max: 100_000,
           pips: true
         }),
-      # NOTE: Date Range filters are NOT supported by LiveTable (Range only supports :number)
+      # NOTE: Date range filters are NOT supported by LiveTable (Range only supports numeric values)
       # See database_tasks.md for details
       express:
         Boolean.new(:is_express, "express", %{
@@ -196,7 +193,7 @@ defmodule DemoWeb.OrdersLive do
           number={5}
           title="Orders"
           rows="5K rows"
-          description="All filter types combined - boolean, range, and select filters working together."
+          description="Range and boolean filters working together for amount, express, gift, and high-value orders."
         />
 
         <.live_table

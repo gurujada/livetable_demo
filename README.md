@@ -1,6 +1,6 @@
 # LiveTable Demo Application
 
-A comprehensive demonstration of [LiveTable](https://hex.pm/packages/live_table) - a powerful Phoenix LiveView library for building scalable, real-time data tables that can handle millions of records with ease.
+A comprehensive demonstration of [LiveTable](https://hex.pm/packages/live_table) - a powerful Phoenix LiveView library for building scalable, real-time data tables that can handle large datasets with ease.
 
 ## 🚀 Live Demos
 
@@ -13,14 +13,14 @@ A comprehensive demonstration of [LiveTable](https://hex.pm/packages/live_table)
 
 This demo showcases LiveTable's comprehensive feature set:
 
-- **📊 Million+ Record Performance** - Smooth handling of large datasets
-- **🔍 Real-time Search** - Full-text search across multiple columns
-- **🎛️ Advanced Filtering** - Boolean, range, date, and select filters
+- **📊 1M+ Record Performance** - Smooth handling of large datasets
+- **🔍 Debounced Search** - Search across configured columns
+- **🎛️ Advanced Filtering** - Boolean, numeric range, select, and custom transformer filters
 - **🔗 Table Joins** - Complex database relationships
-- **📤 Data Export** - CSV and other format exports
+- **📤 Data Export** - CSV export from filtered data
 - **🎨 Custom Rendering** - Beautiful badges and custom column renderers
 - **📱 Responsive Design** - Mobile-friendly tables
-- **⚡ Live Updates** - Real-time data synchronization
+- **⚡ LiveView Interactivity** - Instant filtering, sorting, and pagination feedback
 
 ## 🛠️ Getting Started
 
@@ -39,7 +39,7 @@ This demo showcases LiveTable's comprehensive feature set:
    This command will:
    - Install Elixir dependencies
    - Create and migrate the database
-   - Seed the database with sample data **(10 M records)**
+   - Seed the database with sample data **(about 1.05M records)**
 
 3. **Start the Phoenix server**
    ```bash

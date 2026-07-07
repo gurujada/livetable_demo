@@ -8,26 +8,15 @@
    EXTERNAL LIBRARIES
    ============================================
 
-   For published demo: Use deps paths (libraries installed via mix deps.get)
-   For local development: Use local paths (to test unreleased features)
-
-   Uncomment the appropriate lines below based on your setup.
+   Dependencies are installed via mix deps.get.
    ============================================ */
 
 /* SutraUI - Component library */
-/* Published: use from deps */
 @source "../../deps/sutra_ui/lib";
 @import "../../deps/sutra_ui/priv/static/sutra_ui.css";
 
-/* Local development: use from parent folder */
-/*@source "../../deps/sutra_ui/lib";
-@import "../../deps/sutra_ui/priv/static/sutra_ui.css";*/
-
 /* LiveTable - DataTable component */
-/* Published: use from deps */
 @source "../../deps/live_table/lib";
-/* Local development: use from parent folder */
-/*@source "../../../live_table/lib";*/
 
 /* Lucide Icons - via lucide_icons hex package (CSS included by SutraUI) */
 @plugin "../vendor/lucide";

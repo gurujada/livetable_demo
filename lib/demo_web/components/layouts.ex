@@ -9,7 +9,7 @@ defmodule DemoWeb.Layouts do
   """
   use DemoWeb, :html
 
-  defp live_table_version, do: "0.4.1"
+  defp live_table_version, do: "0.4.2"
 
   defp live_table_changelog_url,
     do: "https://github.com/gurujada/live_table/blob/master/CHANGELOG.md"
@@ -20,7 +20,13 @@ defmodule DemoWeb.Layouts do
     %{path: "/contacts", name: "Contacts", number: 1, badge: "500", desc: "Basic table"},
     %{path: "/tasks", name: "Tasks", number: 2, badge: "1K", desc: "Boolean filters"},
     %{path: "/demo-employees", name: "Employees", number: 3, badge: "2K", desc: "Range filters"},
-    %{path: "/products-simple", name: "Products", number: 4, badge: "3K", desc: "Select filters"},
+    %{
+      path: "/products-simple",
+      name: "Products",
+      number: 4,
+      badge: "3K",
+      desc: "Range + boolean"
+    },
     %{path: "/orders", name: "Orders", number: 5, badge: "5K", desc: "Combined filters"},
     %{path: "/invoices", name: "Invoices", number: 6, badge: "8K", desc: "Table joins"},
     %{path: "/inventory", name: "Inventory", number: 7, badge: "10K", desc: "Computed fields"},
@@ -58,8 +64,8 @@ defmodule DemoWeb.Layouts do
       <!-- Background pattern -->
       <div class="fixed inset-0 bg-dot-pattern opacity-50 pointer-events-none" />
       <div class="fixed inset-0 bg-gradient-mesh pointer-events-none" />
-      
-    <!-- Navbar -->
+
+      <!-- Navbar -->
       <nav class="navbar sticky top-0 z-50 border-b border-border/50 bg-background/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between h-16">
@@ -83,8 +89,8 @@ defmodule DemoWeb.Layouts do
                 v{live_table_version()}
               </a>
             </div>
-            
-    <!-- Center nav - Demos dropdown using SutraUI -->
+
+            <!-- Center nav - Demos dropdown using SutraUI -->
             <div class="hidden sm:flex items-center gap-1">
               <.dropdown_menu id="demos-dropdown" align="center">
                 <:trigger>
@@ -113,8 +119,8 @@ defmodule DemoWeb.Layouts do
                 </.dropdown_item>
               </.dropdown_menu>
             </div>
-            
-    <!-- Right side -->
+
+            <!-- Right side -->
             <div class="flex items-center gap-2">
               <a
                 href="https://hex.pm/packages/live_table"
@@ -140,8 +146,8 @@ defmodule DemoWeb.Layouts do
           </div>
         </div>
       </nav>
-      
-    <!-- Mobile demo nav -->
+
+      <!-- Mobile demo nav -->
       <div class="sm:hidden border-b border-border/50 bg-background/60 backdrop-blur-sm overflow-x-auto">
         <div class="flex gap-1 px-4 py-2">
           <a
@@ -154,13 +160,13 @@ defmodule DemoWeb.Layouts do
           </a>
         </div>
       </div>
-      
-    <!-- Main content -->
+
+      <!-- Main content -->
       <main class="relative">
         {render_slot(@inner_block)}
       </main>
-      
-    <!-- Footer -->
+
+      <!-- Footer -->
       <footer class="relative border-t border-border/50 bg-background/60 backdrop-blur-sm mt-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">

@@ -40,19 +40,16 @@ defmodule Demo.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.1"},
+      {:phoenix_live_view, "~> 1.2"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.9", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
 
       # UI Libraries
-      # Published: use git/GitHub
-      {:sutra_ui, git: "git@github.com:gurujada/sutra_ui.git", override: true},
-      {:live_table, git: "git@github.com:gurujada/live_table.git"},
-      # Local development: use from parent folder (to test unreleased features)
-      # {:sutra_ui, path: "../sutra_ui", override: true},
-      # {:live_table, path: "../live_table", override: true},
+      {:sutra_ui, "~> 0.4.0", override: true},
+      {:live_table,
+       git: "git@github.com:gurujada/live_table.git", branch: "master", override: true},
 
       # Utilities
       {:swoosh, "~> 1.16"},

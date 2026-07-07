@@ -63,12 +63,13 @@ defmodule DemoWeb.InvoicesLive do
     [
       amount_range:
         Range.new(:amount, "amount_range", %{
-          type: :number,
           label: "Amount Range",
           unit: "₹",
           min: 1000,
           max: 500_000,
           step: 5000,
+          default_min: 1000,
+          default_max: 500_000,
           pips: true
         }),
       overdue:

@@ -1,7 +1,7 @@
 defmodule Demo.ProductsSimple.Product do
   @moduledoc """
-  Schema for Demo 4: Select Filters - Products Simple
-  3,000 rows demonstrating select filters (single, tags, quick_tags).
+  Schema for Demo 4: Range + Boolean Filters - Products Simple
+  3,000 rows demonstrating price range and boolean filters.
   """
   use Ecto.Schema
   import Ecto.Changeset

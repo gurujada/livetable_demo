@@ -1,6 +1,6 @@
 defmodule Demo.ProductsSimple do
   @moduledoc """
-  Context for Demo 4: Products Simple - Select Filters
+  Context for Demo 4: Products Simple - Range + Boolean Filters
   """
   alias Demo.Repo
   alias Demo.ProductsSimple.Product

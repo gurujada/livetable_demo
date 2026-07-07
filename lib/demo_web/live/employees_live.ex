@@ -27,7 +27,6 @@ defmodule DemoWeb.EmployeesLive do
     [
       salary_range:
         Range.new(:salary, "salary_range", %{
-          type: :number,
           label: "Salary Range",
           unit: "₹",
           min: 300_000,
@@ -39,7 +38,6 @@ defmodule DemoWeb.EmployeesLive do
         }),
       experience_range:
         Range.new(:experience_years, "experience_range", %{
-          type: :number,
           label: "Experience (years)",
           min: 0,
           max: 30,
@@ -144,7 +142,7 @@ defmodule DemoWeb.EmployeesLive do
           number={3}
           title="Employees"
           rows="2K rows"
-          description="Range filters for salary, experience, and joining dates. Demonstrates numeric and date range filtering."
+          description="Numeric range filters for salary and experience, plus an active-only boolean filter."
         />
 
         <.live_table

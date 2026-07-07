@@ -107,11 +107,11 @@ defmodule DemoWeb.PageHTML do
           1M rows
         </span>
       </div>
-      
-    <!-- Description -->
+
+      <!-- Description -->
       <p class="text-sm text-muted-foreground leading-relaxed mb-3 flex-1">{@description}</p>
-      
-    <!-- Feature tags -->
+
+      <!-- Feature tags -->
       <div :if={@features != []} class="flex flex-wrap gap-1.5">
         <span
           :for={feature <- @features}
@@ -120,8 +120,8 @@ defmodule DemoWeb.PageHTML do
           {feature}
         </span>
       </div>
-      
-    <!-- Arrow on hover -->
+
+      <!-- Arrow on hover -->
       <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0">
         <.icon name="lucide-arrow-right" class="size-4 text-cyan-400" />
       </div>

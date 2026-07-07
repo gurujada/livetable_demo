@@ -102,12 +102,13 @@ defmodule DemoWeb.LeadsLive do
         }),
       deal_value:
         Range.new(:deal_value, "deal_value", %{
-          type: :number,
           label: "Deal Value",
           unit: "₹",
           min: 10000,
           max: 5_000_000,
           step: 50000,
+          default_min: 10000,
+          default_max: 5_000_000,
           pips: true
         }),
       hot_leads:

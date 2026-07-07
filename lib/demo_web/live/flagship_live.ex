@@ -1,7 +1,7 @@
 defmodule DemoWeb.FlagshipLive do
   @moduledoc """
   Demo 10: Flagship - All Features
-  Demonstrates: everything combined with CSV export (100,000 rows).
+  Demonstrates: everything combined with CSV export (1,000,000 rows).
   """
   use DemoWeb, :live_view
   use LiveTable.LiveResource
@@ -148,7 +148,7 @@ defmodule DemoWeb.FlagshipLive do
         default_sort: [inserted_at: :desc]
       },
       search: %{
-        placeholder: "Search 100K products..."
+        placeholder: "Search 1M products..."
       },
       exports: %{
         enabled: true,
@@ -279,7 +279,7 @@ defmodule DemoWeb.FlagshipLive do
         <Layouts.page_header
           number={10}
           title="Flagship"
-          rows="100K rows"
+          rows="1M rows"
           description="All features combined - joins, filters, actions, CSV export, and scale. The ultimate LiveTable demo."
           featured={true}
         />

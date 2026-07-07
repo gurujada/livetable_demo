@@ -1,11 +1,7 @@
 defmodule DemoWeb.ProductsSimpleLive do
   @moduledoc """
-  Demo 4: Select Filters - Products Simple
-  Demonstrates: select filters with static options (3,000 rows).
-
-  TODO: Category and Brand are currently plain string fields. 
-  Select filters require proper relationships (many-to-many) to work correctly.
-  See database_tasks.md for the required schema changes.
+  Demo 4: Range + Boolean Filters - Products Simple
+  Demonstrates: price range and boolean filters with 3,000 rows.
   """
   use DemoWeb, :live_view
   use LiveTable.LiveResource, schema: Demo.ProductsSimple.Product
@@ -30,12 +26,13 @@ defmodule DemoWeb.ProductsSimpleLive do
     [
       price_range:
         Range.new(:price, "price_range", %{
-          type: :number,
           label: "Price Range",
           unit: "₹",
           min: 500,
           max: 50_000,
           step: 500,
+          default_min: 500,
+          default_max: 50_000,
           pips: true
         }),
       in_stock:
@@ -145,7 +142,7 @@ defmodule DemoWeb.ProductsSimpleLive do
           number={4}
           title="Products"
           rows="3K rows"
-          description="Select filters with tags and quick_tags modes. Filter by category, brand, price range, and more."
+          description="Range and boolean filters for price, stock availability, and highly rated products."
         />
 
         <.live_table
