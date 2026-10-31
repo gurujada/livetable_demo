@@ -11,10 +11,9 @@ defmodule Demo.Application do
       DemoWeb.Telemetry,
       Demo.Repo,
       {DNSCluster, query: Application.get_env(:demo, :dns_cluster_query) || :ignore},
-      {Oban, Application.fetch_env!(:demo, Oban)},
       {Phoenix.PubSub, name: Demo.PubSub},
-      # Start a worker by calling: Demo.Worker.start_link(arg)
-      # {Demo.Worker, arg},
+      # Runs the live order feed while someone watches it.
+      {DynamicSupervisor, name: Demo.Live.Supervisor},
       # Start to serve requests, typically the last entry
       DemoWeb.Endpoint
     ]

@@ -40,6 +40,7 @@ defmodule Demo.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:tidewave, git: "git@github.com:cvkmohan/tidewave_phoenix.git", only: :dev},
       {:phoenix_live_view, "~> 1.2"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
@@ -48,8 +49,8 @@ defmodule Demo.MixProject do
 
       # UI Libraries
       {:sutra_ui, "~> 0.4.0", override: true},
-      {:live_table,
-       git: "git@github.com:gurujada/live_table.git", branch: "master", override: true},
+      # Local checkout while LiveTable 0.5 is unpublished; switch back to git or Hex on release.
+      {:live_table, path: "../live_table", override: true},
 
       # Utilities
       {:swoosh, "~> 1.16"},
@@ -60,8 +61,9 @@ defmodule Demo.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:oban, "~> 2.19"},
-      {:oban_web, "~> 2.11"},
+      {:typst, "~> 0.4.4"},
+      # Highlights each demo's source for its Code tab.
+      {:makeup_elixir, "~> 1.0"},
       {:igniter, "~> 0.7"},
       {:lucide_icons,
        github: "lucide-icons/lucide",

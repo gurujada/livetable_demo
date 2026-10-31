@@ -1,9 +1,7 @@
 defmodule Demo.Repo.Migrations.AddOban do
   use Ecto.Migration
 
-  use Ecto.Migration
-
-  def up, do: Oban.Migration.up()
-
-  def down, do: Oban.Migration.down(version: 1)
+  # Oban was removed; 20261031000000 drops its tables.
+  def up, do: :ok
+  def down, do: :ok
 end

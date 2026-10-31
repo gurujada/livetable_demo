@@ -1,209 +1,138 @@
 defmodule DemoWeb.OrdersLive do
-  @moduledoc """
-  Demo 5: Combined Filters - Orders
-  Demonstrates: range and boolean filters combined with 5,000 rows.
-  """
   use DemoWeb, :live_view
   use LiveTable.LiveResource, schema: Demo.Orders.Order
 
-  alias DemoWeb.Layouts
-  alias LiveTable.{Boolean, Range}
-  import DemoWeb.Helpers, only: [format_currency: 1]
+  alias LiveTable.{Boolean, Range, Select}
 
   def fields do
     [
       id: %{label: "ID", hidden: true},
-      order_number: %{label: "Order #", sortable: true, searchable: true},
-      customer_name: %{label: "Customer", sortable: true, searchable: true},
-      city: %{label: "City", searchable: true},
-      status: %{label: "Status", renderer: &render_status/1},
-      payment_status: %{label: "Payment", renderer: &render_payment_status/1},
-      total_amount: %{label: "Amount", sortable: true, renderer: &format_amount/1},
-      items_count: %{label: "Items"},
-      order_date: %{label: "Date", sortable: true, renderer: &format_date/1}
+      order_number: %{label: "Order", sortable: true, searchable: true, renderer: &order/2},
+      customer_name: %{label: "Customer", sortable: true, searchable: true, renderer: &customer/2},
+      city: %{label: "City", sortable: true, renderer: &city/2},
+      status: %{label: "Status", renderer: &status/1},
+      payment_status: %{label: "Payment", renderer: &status/1},
+      total_amount: %{label: "Amount", sortable: true, renderer: &money/1},
+      items_count: %{label: "Items", sortable: true, renderer: &items/1},
+      order_date: %{label: "Placed", sortable: true, renderer: &placed/1},
+      customer_email: %{label: "Email", hidden: true},
+      state: %{label: "State", hidden: true},
+      is_express: %{label: "Express", hidden: true},
+      is_gift: %{label: "Gift", hidden: true}
     ]
   end
 
   def filters do
     [
-      amount_range:
-        Range.new(:total_amount, "amount_range", %{
-          label: "Order Amount",
-          unit: "₹",
-          min: 500,
-          max: 100_000,
-          step: 1000,
-          default_min: 500,
-          default_max: 100_000,
-          pips: true
+      status:
+        Select.new(:status, "status", %{
+          label: "Status",
+          mode: :tags,
+          options: for(s <- Demo.Orders.statuses(), do: %{label: String.capitalize(s), value: s})
         }),
-      # NOTE: Date range filters are NOT supported by LiveTable (Range only supports numeric values)
-      # See database_tasks.md for details
+      city:
+        Select.new(:city, "city", %{
+          label: "City",
+          mode: :tags,
+          placeholder: "Type a city",
+          options_source: {Demo.Orders, :search_cities, []}
+        }),
+      amount:
+        Range.new(:total_amount, "amount", %{
+          label: "Amount",
+          unit: "₹",
+          min: 0,
+          max: 100_000,
+          step: 500,
+          pips: true,
+          pips_mode: "values",
+          pips_values: [0, 25_000, 50_000, 75_000, 100_000]
+        }),
       express:
         Boolean.new(:is_express, "express", %{
-          label: "Express Delivery",
-          condition: dynamic([o], o.is_express == true)
+          label: "Express",
+          condition: dynamic([o], o.is_express)
         }),
-      gift:
-        Boolean.new(:is_gift, "gift", %{
-          label: "Gift Orders",
-          condition: dynamic([o], o.is_gift == true)
-        }),
-      high_value:
-        Boolean.new(:total_amount, "high_value", %{
-          label: "High Value (₹10K+)",
-          condition: dynamic([o], o.total_amount >= 10000)
-        })
+      gift: Boolean.new(:is_gift, "gift", %{label: "Gift", condition: dynamic([o], o.is_gift)})
     ]
   end
 
-  def actions do
-    %{
-      label: "Actions",
-      items: [
-        view: &view_action/1,
-        track: &track_action/1
-      ]
-    }
-  end
+  defp customer(name, order) do
+    assigns = %{name: name, email: order.customer_email}
 
-  defp view_action(assigns) do
     ~H"""
-    <button
-      phx-click="view_order"
-      phx-value-id={@record.id}
-      class="flex items-center gap-2 w-full px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors"
-    >
-      <.icon name="lucide-eye" class="size-4" /> View Details
-    </button>
+    <.person name={@name} sub={@email} />
     """
   end
 
-  defp track_action(assigns) do
+  defp city(city, order) do
+    assigns = %{city: city, state: order.state}
+
     ~H"""
-    <button
-      phx-click="track_order"
-      phx-value-id={@record.id}
-      class="flex items-center gap-2 w-full px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors"
-    >
-      <.icon name="lucide-truck" class="size-4" /> Track Shipment
-    </button>
+    <.stacked main={@city} sub={@state} />
+    """
+  end
+
+  defp items(count) do
+    assigns = %{count: count}
+
+    ~H"""
+    <span class="inline-flex items-center gap-1.5 text-muted-foreground">
+      <.icon name="lucide-package" class="size-3.5" />{@count}
+    </span>
+    """
+  end
+
+  defp placed(date) do
+    assigns = %{date: date}
+
+    ~H"""
+    <.stacked main={date(@date)} sub={relative(@date)} />
     """
   end
 
   def table_options do
     %{
-      pagination: %{sizes: [10, 25, 50, 100], default_size: 25},
+      pagination: %{sizes: [10, 25, 50], default_size: 25},
       sorting: %{default_sort: [order_date: :desc]},
-      search: %{placeholder: "Search orders..."}
+      search: %{placeholder: "Search order or customer"},
+      exports: %{enabled: false},
+      fixed_header: true
     }
   end
 
-  def handle_event("view_order", %{"id" => _id}, socket) do
-    {:noreply,
-     put_flash(socket, :info, "In a real app, this would navigate to the order detail page")}
-  end
-
-  def handle_event("track_order", %{"id" => _id}, socket) do
-    {:noreply, put_flash(socket, :info, "In a real app, this would show shipment tracking info")}
-  end
-
-  defp render_status(status) do
-    {bg, text} =
-      case status do
-        "pending" ->
-          {"bg-yellow-100 dark:bg-yellow-900/30", "text-yellow-700 dark:text-yellow-400"}
-
-        "confirmed" ->
-          {"bg-blue-100 dark:bg-blue-900/30", "text-blue-700 dark:text-blue-400"}
-
-        "shipped" ->
-          {"bg-purple-100 dark:bg-purple-900/30", "text-purple-700 dark:text-purple-400"}
-
-        "delivered" ->
-          {"bg-green-100 dark:bg-green-900/30", "text-green-700 dark:text-green-400"}
-
-        "cancelled" ->
-          {"bg-red-100 dark:bg-red-900/30", "text-red-700 dark:text-red-400"}
-
-        _ ->
-          {"bg-gray-100 dark:bg-gray-800", "text-gray-700 dark:text-gray-400"}
-      end
-
-    assigns = %{status: status, bg: bg, text: text}
+  defp order(number, order) do
+    assigns = %{number: number, order: order}
 
     ~H"""
-    <span class={["px-2 py-1 text-xs rounded-full capitalize", @bg, @text]}>
-      {@status}
-    </span>
-    """
-  end
-
-  defp render_payment_status(status) do
-    {bg, text} =
-      case status do
-        "paid" ->
-          {"bg-green-100 dark:bg-green-900/30", "text-green-700 dark:text-green-400"}
-
-        "pending" ->
-          {"bg-yellow-100 dark:bg-yellow-900/30", "text-yellow-700 dark:text-yellow-400"}
-
-        "refunded" ->
-          {"bg-red-100 dark:bg-red-900/30", "text-red-700 dark:text-red-400"}
-
-        "partially_paid" ->
-          {"bg-orange-100 dark:bg-orange-900/30", "text-orange-700 dark:text-orange-400"}
-
-        _ ->
-          {"bg-gray-100 dark:bg-gray-800", "text-gray-700 dark:text-gray-400"}
-      end
-
-    display = String.replace(status, "_", " ")
-    assigns = %{display: display, bg: bg, text: text}
-
-    ~H"""
-    <span class={["px-2 py-1 text-xs rounded-full capitalize", @bg, @text]}>
-      {@display}
-    </span>
-    """
-  end
-
-  defp format_amount(amount) do
-    formatted = format_currency(amount)
-    assigns = %{formatted: formatted}
-
-    ~H"""
-    <span class="font-mono text-green-700 dark:text-green-400">₹{@formatted}</span>
-    """
-  end
-
-  defp format_date(date) do
-    assigns = %{date: date}
-
-    ~H"""
-    <span>{Calendar.strftime(@date, "%d %b %Y")}</span>
+    <div class="flex items-center gap-2">
+      <span class="font-mono text-sm">{@number}</span>
+      <span :if={@order.is_express} title="Express" class="text-amber-500">
+        <.icon name="lucide-zap" class="size-3.5" />
+      </span>
+      <span :if={@order.is_gift} title="Gift" class="text-pink-500">
+        <.icon name="lucide-gift" class="size-3.5" />
+      </span>
+    </div>
     """
   end
 
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash}>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Layouts.page_header
-          number={5}
-          title="Orders"
-          rows="5K rows"
-          description="Range and boolean filters working together for amount, express, gift, and high-value orders."
-        />
-
-        <.live_table
-          fields={fields()}
-          filters={filters()}
-          actions={actions()}
-          options={@options}
-          streams={@streams}
-        />
-      </div>
+      <Layouts.demo
+        path="/orders"
+        title="Orders"
+        rows="5K rows"
+        source={__source__()}
+        try="Pick two statuses, type a city, then copy the URL into a new tab."
+      >
+        <:intro>
+          Select, search-as-you-type, range and toggle filters on one table. Every filter lives
+          in the URL, so a filtered view is a link you can share.
+        </:intro>
+        <.live_table fields={fields()} filters={filters()} options={@options} streams={@streams} />
+      </Layouts.demo>
     </Layouts.app>
     """
   end

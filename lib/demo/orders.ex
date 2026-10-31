@@ -21,6 +21,20 @@ defmodule Demo.Orders do
     Repo.aggregate(Order, :count)
   end
 
+  @doc "Cities with orders, for the city filter's search-as-you-type."
+  def search_cities(text) do
+    import Ecto.Query
+
+    from(o in Order,
+      where: ilike(o.city, ^"%#{text}%"),
+      distinct: true,
+      order_by: o.city,
+      limit: 20,
+      select: {o.city, o.city}
+    )
+    |> Repo.all()
+  end
+
   def statuses, do: ~w(pending confirmed shipped delivered cancelled)
   def payment_statuses, do: ~w(pending paid refunded partially_paid)
 end

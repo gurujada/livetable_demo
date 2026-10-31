@@ -1,6 +1,5 @@
 defmodule DemoWeb.Router do
   use DemoWeb, :router
-  import Oban.Web.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,6 +10,8 @@ defmodule DemoWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  forward "/live_table/exports", LiveTable.ExportPlug
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -18,20 +19,18 @@ defmodule DemoWeb.Router do
   scope "/", DemoWeb do
     pipe_through :browser
 
-    oban_dashboard("/oban")
-    get "/", PageController, :home
-
-    # LiveTable Demos
+    live "/", HomeLive
     live "/contacts", ContactsLive
-    live "/tasks", TasksLive
-    live "/demo-employees", EmployeesLive
-    live "/products-simple", ProductsSimpleLive
     live "/orders", OrdersLive
-    live "/invoices", InvoicesLive
     live "/inventory", InventoryLive
     live "/leads", LeadsLive
     live "/projects", ProjectsLive
+    live "/store", StoreLive
+    live "/live", LiveOrdersLive
     live "/flagship", FlagshipLive
+
+    for path <- ~w(tasks demo-employees products-simple invoices),
+        do: get("/#{path}", PageController, :moved)
   end
 
   # Other scopes may use custom stacks.

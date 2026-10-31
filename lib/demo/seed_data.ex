@@ -85,12 +85,29 @@ defmodule Demo.SeedData do
     {"Hubli", "Karnataka"}
   ]
 
-  @states ~w(
-    Maharashtra Karnataka Tamil\ Nadu Gujarat Rajasthan Uttar\ Pradesh
-    West\ Bengal Telangana Andhra\ Pradesh Kerala Punjab Haryana
-    Madhya\ Pradesh Bihar Jharkhand Odisha Chhattisgarh Assam
-    Uttarakhand Himachal\ Pradesh Goa
-  )
+  @states [
+    "Maharashtra",
+    "Karnataka",
+    "Tamil Nadu",
+    "Gujarat",
+    "Rajasthan",
+    "Uttar Pradesh",
+    "West Bengal",
+    "Telangana",
+    "Andhra Pradesh",
+    "Kerala",
+    "Punjab",
+    "Haryana",
+    "Madhya Pradesh",
+    "Bihar",
+    "Jharkhand",
+    "Odisha",
+    "Chhattisgarh",
+    "Assam",
+    "Uttarakhand",
+    "Himachal Pradesh",
+    "Goa"
+  ]
 
   @regions ~w(North South East West Central)
 
@@ -105,37 +122,154 @@ defmodule Demo.SeedData do
     Innovations Dynamics Global Networks Digital Ventures Labs
   )
 
-  @company_suffixes ~w(
-    Pvt\ Ltd Ltd LLP India Group Corp Inc
-  )
+  @company_suffixes ["Pvt Ltd", "Ltd", "LLP", "India", "Group", "Corp", "Inc"]
 
   # Departments
-  @departments ~w(
-    Engineering Sales Marketing Finance HR Operations Product Legal
-    Customer\ Support IT Research Quality Admin Procurement
-  )
+  @departments [
+    "Engineering",
+    "Sales",
+    "Marketing",
+    "Finance",
+    "HR",
+    "Operations",
+    "Product",
+    "Legal",
+    "Customer Support",
+    "IT",
+    "Research",
+    "Quality",
+    "Admin",
+    "Procurement"
+  ]
 
   # Designations by level
   @designations %{
-    junior: ~w(Associate Trainee Executive Junior\ Engineer Analyst),
-    mid: ~w(Senior\ Executive Engineer Team\ Lead Specialist Consultant),
-    senior: ~w(Manager Senior\ Manager Principal AVP Deputy\ Manager),
-    leadership: ~w(Director VP Senior\ Director Head General\ Manager)
+    junior: ["Associate", "Trainee", "Executive", "Junior Engineer", "Analyst"],
+    mid: ["Senior Executive", "Engineer", "Team Lead", "Specialist", "Consultant"],
+    senior: ["Manager", "Senior Manager", "Principal", "AVP", "Deputy Manager"],
+    leadership: ["Director", "VP", "Senior Director", "Head", "General Manager"]
   }
 
-  # Product categories
-  @product_categories ~w(
-    Electronics Clothing Footwear Home\ &\ Kitchen Beauty Sports Books
-    Toys Automotive Health Grocery Jewelry Furniture Office Garden
-  )
+  # Products: {category, [{brand, [{product line, list price}]}], [variant]}. A brand only
+  # sells its own lines, and every variant of a line is priced near the line's price.
+  @catalogue [
+    {"Phones",
+     [
+       {"Samsung", [{"Galaxy S24", 74_999}, {"Galaxy A35 5G", 30_999}, {"Galaxy M15", 12_999}]},
+       {"Apple", [{"iPhone 15", 69_999}, {"iPhone 15 Plus", 79_999}, {"iPhone 16 Pro", 119_999}]},
+       {"OnePlus", [{"12R", 39_999}, {"Nord CE 4", 24_999}, {"Nord 4", 29_999}]},
+       {"Xiaomi", [{"Redmi Note 13", 17_999}, {"Redmi 13C", 8_999}, {"14 Civi", 42_999}]},
+       {"Realme", [{"Narzo 70x", 11_999}, {"12 Pro+", 29_999}, {"C65", 9_999}]},
+       {"Vivo", [{"V30", 33_999}, {"T3 5G", 19_999}, {"Y28", 13_999}]}
+     ], ["128 GB, Black", "128 GB, Blue", "256 GB, Black", "256 GB, Silver", "512 GB, Titanium"]},
+    {"Laptops",
+     [
+       {"HP", [{"Pavilion 15", 62_999}, {"Victus 16", 78_999}, {"EliteBook 840", 119_999}]},
+       {"Dell", [{"Inspiron 14", 54_999}, {"Vostro 3520", 41_999}, {"XPS 13", 139_999}]},
+       {"Lenovo", [{"IdeaPad Slim 3", 44_999}, {"ThinkPad E14", 71_999}, {"Legion 5", 124_999}]},
+       {"Asus", [{"Vivobook 15", 39_999}, {"Zenbook 14", 89_999}, {"ROG Strix G16", 149_999}]},
+       {"Apple", [{"MacBook Air M3", 114_999}, {"MacBook Pro 14", 169_999}]}
+     ], ["8 GB, 512 GB SSD", "16 GB, 512 GB SSD", "16 GB, 1 TB SSD", "32 GB, 1 TB SSD"]},
+    {"Audio",
+     [
+       {"boAt", [{"Airdopes 141", 1_299}, {"Rockerz 450", 1_499}, {"Stone 1200", 3_999}]},
+       {"JBL", [{"Tune 760NC", 7_999}, {"Flip 6", 11_999}, {"Go 4", 3_999}]},
+       {"Sony", [{"WH-1000XM5", 29_999}, {"WF-C700N", 8_999}, {"SRS-XB100", 4_499}]},
+       {"Noise", [{"Buds VS104", 1_199}, {"Airwave", 2_499}]}
+     ], ["Black", "Blue", "White", "Teal"]},
+    {"Watches",
+     [
+       {"Titan", [{"Neo Analog", 3_495}, {"Raga Viva", 8_995}, {"Edge Ceramic", 24_995}]},
+       {"Fastrack", [{"Reflex Play", 5_995}, {"Limitless FS1", 1_995}]},
+       {"Casio",
+        [{"G-Shock GA-2100", 9_995}, {"Vintage A168", 4_495}, {"Edifice EFR-526", 11_995}]},
+       {"Fossil", [{"Grant Chronograph", 12_995}, {"Gen 6 Smartwatch", 21_995}]}
+     ], ["Black dial", "Blue dial", "Silver", "Rose gold"]},
+    {"Footwear",
+     [
+       {"Nike", [{"Air Max SC", 6_295}, {"Revolution 7", 3_695}, {"Court Vision Low", 4_995}]},
+       {"Adidas", [{"Ultraboost Light", 15_999}, {"Runfalcon 3", 4_299}, {"Grand Court", 4_599}]},
+       {"Puma", [{"Smash v2", 2_999}, {"Softride Pro", 4_999}]},
+       {"Woodland", [{"Leather Boots", 5_995}, {"Trekking Shoes", 4_495}]},
+       {"Bata", [{"Formal Oxfords", 2_499}, {"Comfit Sandals", 999}]}
+     ], ["UK 7", "UK 8", "UK 9", "UK 10"]},
+    {"Clothing",
+     [
+       {"Allen Solly", [{"Slim Fit Shirt", 1_799}, {"Chinos", 2_199}, {"Polo T-Shirt", 1_299}]},
+       {"Peter England",
+        [{"Formal Shirt", 1_599}, {"Pleated Trousers", 1_999}, {"Blazer", 5_999}]},
+       {"Fabindia", [{"Cotton Kurta", 1_690}, {"Silk Saree", 7_490}, {"Nehru Jacket", 3_490}]},
+       {"Biba", [{"Anarkali Kurta", 2_999}, {"Palazzo Set", 2_499}]},
+       {"Levi's", [{"511 Slim Jeans", 3_299}, {"Trucker Jacket", 4_999}]}
+     ], ["S", "M", "L", "XL"]},
+    {"Home & Kitchen",
+     [
+       {"Prestige",
+        [{"Pressure Cooker 5 L", 2_199}, {"Induction Cooktop", 2_999}, {"Omega Tawa", 899}]},
+       {"Philips",
+        [{"Air Fryer HD9252", 8_999}, {"Mixer Grinder 750 W", 4_499}, {"Steam Iron", 1_899}]},
+       {"Bajaj",
+        [{"Ceiling Fan 1200 mm", 2_799}, {"OTG 28 L", 6_499}, {"Water Heater 15 L", 7_999}]},
+       {"Milton", [{"Thermosteel Flask 1 L", 999}, {"Lunch Box Set", 749}]}
+     ], ["Black", "Silver", "Red", "Pack of 2"]},
+    {"Beauty",
+     [
+       {"Lakmé", [{"9to5 Foundation", 649}, {"Sun Expert SPF 50", 399}, {"Eyeconic Kajal", 249}]},
+       {"Nivea", [{"Soft Light Cream", 299}, {"Men Face Wash", 219}]},
+       {"Mamaearth", [{"Vitamin C Serum", 599}, {"Onion Hair Oil", 449}]},
+       {"Forest Essentials", [{"Facial Ubtan", 1_475}, {"Bhringraj Hair Oil", 1_250}]}
+     ], ["30 ml", "50 ml", "100 ml", "200 ml"]},
+    {"Furniture",
+     [
+       {"Wakefit",
+        [{"Orthopedic Mattress", 14_999}, {"Study Table", 6_499}, {"Sofa Cum Bed", 24_999}]},
+       {"Godrej Interio",
+        [{"Ergonomic Office Chair", 11_999}, {"3-Door Wardrobe", 32_999}, {"Bookshelf", 7_999}]},
+       {"Nilkamal", [{"Plastic Chair", 899}, {"Shoe Rack", 2_499}]},
+       {"IKEA", [{"Billy Bookcase", 5_990}, {"Poäng Armchair", 12_990}]}
+     ], ["Walnut", "Teak", "Grey", "White"]},
+    {"Sports",
+     [
+       {"Yonex", [{"Astrox 88D Racket", 15_999}, {"Mavis 350 Shuttlecocks", 1_299}]},
+       {"SG", [{"Kashmir Willow Bat", 2_999}, {"Test Batting Gloves", 1_599}]},
+       {"Decathlon",
+        [{"Yoga Mat 8 mm", 999}, {"Football Size 5", 799}, {"Trekking Backpack 30 L", 1_999}]},
+       {"Cosco", [{"Basketball", 899}, {"Skipping Rope", 299}]}
+     ], ["Red", "Blue", "Black", "Green"]},
+    {"Grocery",
+     [
+       {"Tata", [{"Tea Gold 500 g", 349}, {"Sampann Toor Dal 1 kg", 219}, {"Salt 1 kg", 28}]},
+       {"Aashirvaad", [{"Atta 5 kg", 289}, {"Multigrain Atta 5 kg", 359}]},
+       {"Amul", [{"Butter 500 g", 285}, {"Pure Ghee 1 L", 649}]},
+       {"Haldiram's", [{"Aloo Bhujia 1 kg", 299}, {"Soan Papdi 500 g", 199}]}
+     ], ["Single", "Pack of 2", "Pack of 3"]}
+  ]
 
-  # Brands (Indian + International)
-  @brands ~w(
-    Samsung Apple OnePlus Xiaomi Realme Vivo Oppo Sony LG HP Dell
-    Lenovo Asus Boat JBL Nike Adidas Puma Reebok Woodland Bata
-    Tanishq Titan Fastrack Casio Fossil Raymond Peter\ England Allen\ Solly
-    Van\ Heusen Louis\ Philippe Park\ Avenue Fabindia W Biba Global\ Desi
-  )
+  @brand_countries %{
+    "Samsung" => "South Korea",
+    "Apple" => "USA",
+    "OnePlus" => "China",
+    "Xiaomi" => "China",
+    "Realme" => "China",
+    "Vivo" => "China",
+    "HP" => "USA",
+    "Dell" => "USA",
+    "Lenovo" => "China",
+    "Asus" => "Taiwan",
+    "JBL" => "USA",
+    "Sony" => "Japan",
+    "Casio" => "Japan",
+    "Fossil" => "USA",
+    "Nike" => "USA",
+    "Adidas" => "Germany",
+    "Puma" => "Germany",
+    "Levi's" => "USA",
+    "Philips" => "Netherlands",
+    "Nivea" => "Germany",
+    "IKEA" => "Sweden",
+    "Yonex" => "Japan",
+    "Decathlon" => "France"
+  }
 
   # Order/Invoice statuses
   @order_statuses ~w(pending confirmed shipped delivered cancelled)
@@ -143,11 +277,33 @@ defmodule Demo.SeedData do
   @invoice_statuses ~w(draft sent paid overdue cancelled)
 
   # Lead sources and stages
-  @lead_sources ~w(Website Referral LinkedIn Facebook Instagram Trade\ Show Cold\ Call Email\ Campaign Google\ Ads Partner)
+  @lead_sources [
+    "Website",
+    "Referral",
+    "LinkedIn",
+    "Facebook",
+    "Instagram",
+    "Trade Show",
+    "Cold Call",
+    "Email Campaign",
+    "Google Ads",
+    "Partner"
+  ]
   @lead_stages ~w(New Contacted Qualified Proposal Negotiation Won Lost)
 
   # Project types and statuses
-  @project_types ~w(Web\ App Mobile\ App API\ Development Consulting Data\ Analytics Cloud\ Migration DevOps E-commerce CRM ERP)
+  @project_types [
+    "Web App",
+    "Mobile App",
+    "API Development",
+    "Consulting",
+    "Data Analytics",
+    "Cloud Migration",
+    "DevOps",
+    "E-commerce",
+    "CRM",
+    "ERP"
+  ]
   @project_statuses ~w(planning active on_hold completed cancelled)
 
   # Payment terms
@@ -236,8 +392,6 @@ defmodule Demo.SeedData do
     end
   end
 
-  def random_product_category, do: Enum.random(@product_categories)
-  def random_brand, do: Enum.random(@brands)
   def random_order_status, do: Enum.random(@order_statuses)
   def random_payment_status, do: Enum.random(@payment_statuses)
   def random_invoice_status, do: Enum.random(@invoice_statuses)
@@ -246,8 +400,14 @@ defmodule Demo.SeedData do
   def random_project_type, do: Enum.random(@project_types)
   def random_project_status, do: Enum.random(@project_statuses)
 
-  def all_product_categories, do: @product_categories
-  def all_brands, do: @brands
+  def product_categories, do: Enum.map(@catalogue, &elem(&1, 0))
+  def random_product_category, do: Enum.random(product_categories())
+
+  def brands do
+    for({_, lines, _} <- @catalogue, {brand, _} <- lines, uniq: true, do: brand)
+    |> Enum.map(&{&1, Map.get(@brand_countries, &1, "India")})
+  end
+
   def all_departments, do: @departments
   def all_lead_sources, do: @lead_sources
   def all_lead_stages, do: @lead_stages
@@ -299,41 +459,34 @@ defmodule Demo.SeedData do
     "EMP#{:rand.uniform(99999) |> Integer.to_string() |> String.pad_leading(5, "0")}"
   end
 
-  def generate_product_name(category) do
-    adjectives = ~w(Premium Essential Classic Modern Ultra Pro Elite Smart Advanced Basic)
+  @doc """
+  A product that hangs together: its brand makes it, its price sits near its line's price,
+  and its rating near its line's rating.
+  """
+  def random_product do
+    {category, lines, variants} = Enum.random(@catalogue)
+    {brand, names} = Enum.random(lines)
+    {line, list_price} = Enum.random(names)
+    index = Enum.random(0..(length(variants) - 1))
 
-    nouns =
-      case category do
-        "Electronics" ->
-          ~w(Phone Laptop Tablet Watch Earbuds Speaker Camera Charger Cable Mouse Keyboard)
+    # Later variants (more storage, bigger packs) cost a little more; sellers vary a little.
+    price = list_price * (1 + index * 0.08) * (0.94 + :rand.uniform() * 0.08)
+    line_rating = 3.6 + :erlang.phash2(line, 11) / 10
+    rating = min(5.0, max(1.0, line_rating + :rand.normal() * 0.25))
 
-        "Clothing" ->
-          ~w(Shirt T-Shirt Jeans Jacket Sweater Dress Kurta Saree Suit Blazer)
-
-        "Footwear" ->
-          ~w(Sneakers Sandals Boots Loafers Heels Flats Slippers Sports\ Shoes Formal\ Shoes)
-
-        "Home & Kitchen" ->
-          ~w(Mixer Blender Cooker Kettle Toaster Microwave Utensils Cookware Storage)
-
-        "Beauty" ->
-          ~w(Cream Serum Lotion Shampoo Conditioner Lipstick Foundation Mascara Perfume)
-
-        "Sports" ->
-          ~w(Bat Ball Racket Shoes Gloves Jersey Helmet Bag Equipment Gear)
-
-        "Books" ->
-          ~w(Novel Textbook Guide Manual Journal Notebook Planner Diary Magazine)
-
-        "Toys" ->
-          ~w(Car Doll Puzzle Game Robot Action\ Figure Board\ Game Building\ Blocks)
-
-        _ ->
-          ~w(Item Product Accessory Set Kit Pack Bundle Collection)
-      end
-
-    "#{Enum.random(adjectives)} #{Enum.random(nouns)}"
+    %{
+      category: category,
+      brand: brand,
+      name: "#{brand} #{line} (#{Enum.at(variants, index)})",
+      price: price |> retail_price() |> Decimal.new(),
+      cost: (price / (1.15 + :rand.uniform() * 0.45)) |> Float.round(2) |> Decimal.from_float(),
+      rating: rating |> Float.round(1) |> Decimal.from_float()
+    }
   end
+
+  # 24,999 rather than 25,000; 149 rather than 150.
+  defp retail_price(price) when price >= 1000, do: round(price / 100) * 100 - 1
+  defp retail_price(price), do: round(price / 10) * 10 - 1
 
   def generate_task_title do
     verbs = ~w(Review Complete Update Fix Implement Design Test Deploy Document Analyze Optimize)

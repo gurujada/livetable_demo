@@ -3,6 +3,7 @@
 @source "../css";
 @source "../js";
 @source "../../lib/demo_web";
+@source "../../lib/demo";
 
 /* ============================================
    EXTERNAL LIBRARIES
@@ -14,6 +15,7 @@
 /* SutraUI - Component library */
 @source "../../deps/sutra_ui/lib";
 @import "../../deps/sutra_ui/priv/static/sutra_ui.css";
+@import "./makeup.css";
 
 /* LiveTable - DataTable component */
 @source "../../deps/live_table/lib";
@@ -167,6 +169,7 @@
 
 .font-mono {
     font-family: var(--font-mono);
+    font-variant-ligatures: none;
 }
 
 /* Gradient text */
@@ -292,6 +295,74 @@ html {
         rgba(168, 85, 247, 0.15) 100%
     );
     border-color: rgba(6, 182, 212, 0.4);
+}
+
+/* ============================================
+   DEMO PAGES
+   ============================================ */
+
+/* Short names for theme colours the demo pages use. */
+@theme {
+    --color-quiet: var(--muted-foreground);
+    --color-rule: var(--border);
+    --color-signal: var(--color-brand-500);
+    --color-marker: #fde047;
+}
+
+/* A cell that just changed flashes, like a highlighter, then fades. */
+@keyframes marker {
+    from {
+        background-color: rgb(253 224 71 / 0.45);
+    }
+    to {
+        background-color: transparent;
+    }
+}
+
+.is-fresh {
+    animation: marker 2.4s ease-out;
+    border-radius: 0.25rem;
+}
+
+/* Ranges too wide for readable pip labels keep just the tick marks. */
+.pips-without-labels .range-slider-pip-label {
+    display: none;
+}
+
+/* Code panes: the old home page's dark window, with Makeup's One Dark colours. */
+.code-window .highlight {
+    background: transparent;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    font-variant-ligatures: none;
+}
+
+/* Storefront: two products a row on phones, three beside a sidebar on desktop. */
+.storefront [phx-update="stream"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
+}
+
+@media (min-width: 1024px) {
+    .storefront > [phx-hook] {
+        display: grid;
+        grid-template-columns: 15rem minmax(0, 1fr);
+        column-gap: 2.5rem;
+        align-items: start;
+    }
+
+    .storefront > [phx-hook] > :first-child {
+        grid-row: span 3;
+        position: sticky;
+        top: 5rem;
+    }
+
+    .storefront [phx-update="stream"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
 }
 
 /* ============================================

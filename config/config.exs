@@ -7,12 +7,6 @@
 # General application configuration
 import Config
 
-config :demo, Oban,
-  engine: Oban.Engines.Basic,
-  notifier: Oban.Notifiers.Postgres,
-  queues: [default: 10],
-  repo: Demo.Repo
-
 config :demo,
   ecto_repos: [Demo.Repo],
   generators: [timestamp_type: :utc_datetime]
@@ -68,21 +62,7 @@ config :logger, :default_formatter,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :live_table,
-  app: :demo,
-  repo: Demo.Repo,
-  pubsub: Demo.PubSub,
-  defaults: %{exports: %{enabled: false}}
-
-# config/config.exs
-config :demo, Oban,
-  repo: Demo.Repo,
-  engine: Oban.Engines.Basic,
-  notifier: Oban.Notifiers.Postgres,
-  plugins: [Oban.Plugins.Pruner],
-  queues: [exports: 10]
-
-# the queue named `exports` will be used for export jobs
+config :live_table, repo: Demo.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

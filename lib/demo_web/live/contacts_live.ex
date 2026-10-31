@@ -1,76 +1,78 @@
 defmodule DemoWeb.ContactsLive do
-  @moduledoc """
-  Demo 1: Basic Table - Contacts
-  Demonstrates: sorting, pagination, search, and row actions with 500 rows.
-  """
   use DemoWeb, :live_view
   use LiveTable.LiveResource, schema: Demo.Contacts.Contact
 
   def fields do
     [
-      id: %{label: "ID", sortable: true},
-      name: %{label: "Name", sortable: true, searchable: true},
-      email: %{label: "Email", searchable: true},
-      phone: %{label: "Phone"},
-      city: %{label: "City", sortable: true, searchable: true}
+      id: %{label: "ID", sortable: true, renderer: &id/1},
+      name: %{label: "Name", sortable: true, searchable: true, renderer: &name/2},
+      email: %{label: "Email", searchable: true, renderer: &with_icon(&1, "lucide-mail")},
+      phone: %{label: "Phone", renderer: &with_icon(&1, "lucide-phone")},
+      city: %{
+        label: "City",
+        sortable: true,
+        searchable: true,
+        renderer: &with_icon(&1, "lucide-map-pin")
+      }
     ]
   end
 
-  def filters do
-    []
-  end
+  def filters, do: []
 
   def actions do
-    %{
-      label: "Actions",
-      items: [
-        view: &view_action/1
-      ]
-    }
+    %{label: "", items: [email: &email_action/1]}
   end
 
-  defp view_action(assigns) do
+  defp email_action(assigns) do
     ~H"""
-    <button
-      type="button"
-      phx-click="view_contact"
-      phx-value-id={@record.id}
-      class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/10 rounded transition-colors"
-    >
-      <.icon name="lucide-eye" class="size-3" /> View
-    </button>
+    <a href={"mailto:#{@record.email}"} class="text-sm font-medium text-cyan-500 hover:underline">
+      Email
+    </a>
+    """
+  end
+
+  defp id(id) do
+    assigns = %{id: id}
+
+    ~H"""
+    <span class="font-mono text-xs text-muted-foreground">#{@id}</span>
+    """
+  end
+
+  defp name(name, contact) do
+    assigns = %{name: name, city: contact.city}
+
+    ~H"""
+    <.person name={@name} sub={@city} />
+    """
+  end
+
+  defp with_icon(text, icon) do
+    assigns = %{text: text, icon: icon}
+
+    ~H"""
+    <span class="inline-flex items-center gap-2 text-muted-foreground">
+      <.icon name={@icon} class="size-3.5 shrink-0 text-cyan-500/70" />
+      <span class="text-foreground/90">{@text}</span>
+    </span>
     """
   end
 
   def table_options do
-    %{
-      search: %{
-        placeholder: "Search contacts..."
-      }
-    }
-  end
-
-  def handle_event("view_contact", %{"id" => id}, socket) do
-    contact = Demo.Contacts.get_contact!(id)
-
-    socket =
-      socket
-      |> put_flash(:info, "In a real app, this would navigate to #{contact.name}'s detail page")
-
-    {:noreply, socket}
+    %{search: %{placeholder: "Search name, email or city"}, exports: %{enabled: false}}
   end
 
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash}>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Layouts.page_header
-          number={1}
-          title="Contacts"
-          rows="500 rows"
-          description="Basic table with sorting, pagination, search, and row actions."
-        />
-
+      <Layouts.demo
+        path="/contacts"
+        title="Contacts"
+        rows="500 rows"
+        source={__source__()}
+        try="Shift-click a second column header to sort by both."
+      >
+        <:intro>A table straight from an Ecto schema. No query to write.</:intro>
         <.live_table
           fields={fields()}
           filters={filters()}
@@ -78,7 +80,7 @@ defmodule DemoWeb.ContactsLive do
           options={@options}
           streams={@streams}
         />
-      </div>
+      </Layouts.demo>
     </Layouts.app>
     """
   end

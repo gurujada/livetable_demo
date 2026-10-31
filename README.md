@@ -1,71 +1,43 @@
-# LiveTable Demo Application
+# LiveTable demo
 
-A comprehensive demonstration of [LiveTable](https://hex.pm/packages/live_table) - a powerful Phoenix LiveView library for building scalable, real-time data tables that can handle large datasets with ease.
+The demo site for [LiveTable](https://hex.pm/packages/live_table), real-time data tables for
+Phoenix LiveView. It runs at [livetable.gurujada.com](https://livetable.gurujada.com).
 
-## 🚀 Live Demos
+Each demo is one LiveView, and every page has a Code tab showing its full source.
 
-- **[Basic Demo](https://livetable.gurujada.com)** - This application showcasing core LiveTable features
-- **[Advanced Demo](https://josaa.gurujada.com)** - Complex josaa counselling helper built with livetable
+| Demo | Shows |
+|---|---|
+| Contacts | A table straight from an Ecto schema: sorting, multi-column sort, search, pagination, row actions |
+| Orders | Every filter type: select, search-as-you-type select, range, toggles; filters in the URL |
+| Inventory | Joined tables and computed columns, sorted and searched like any other |
+| Leads | Transformers: filters that are functions rewriting the query |
+| Projects | Card mode, infinite scroll, bulk actions with the card's own checkbox |
+| Storefront | A shop page built on a table: custom controls, cards and empty state |
+| Live orders | Live rows and bulk actions, beside a small dashboard |
+| 1M products | A million rows with joins, filters, a fixed header and CSV/PDF export |
 
-![LiveTable Demo](https://github.com/gurujada/live_table/blob/master/demo.gif)
+The home page's table is the live order feed too.
 
-## ✨ Features Demonstrated
+## Running it
 
-This demo showcases LiveTable's comprehensive feature set:
+```bash
+git clone https://github.com/gurujada/livetable_demo
+cd livetable_demo
+mix setup        # deps, database and seed data (100,000 flagship products)
+mix phx.server
+```
 
-- **📊 1M+ Record Performance** - Smooth handling of large datasets
-- **🔍 Debounced Search** - Search across configured columns
-- **🎛️ Advanced Filtering** - Boolean, numeric range, select, and custom transformer filters
-- **🔗 Table Joins** - Complex database relationships
-- **📤 Data Export** - CSV export from filtered data
-- **🎨 Custom Rendering** - Beautiful badges and custom column renderers
-- **📱 Responsive Design** - Mobile-friendly tables
-- **⚡ LiveView Interactivity** - Instant filtering, sorting, and pagination feedback
+Then open [localhost:4000](http://localhost:4000). The live site has a million flagship products;
+to match it, run `FLAGSHIP_ROWS=1000000 mix run priv/repo/flagship_seeds.exs`.
 
-## 🛠️ Getting Started
+## The live feed
 
-### Installation
+`Demo.Live.Feed` invents orders and moves them along while someone is watching the Live orders
+page or the home page. The first viewer starts it, and it stops 30 seconds after the last one
+leaves. It keeps the newest 120 orders. Every change goes out with `LiveTable.broadcast/3`, so
+each open table updates, sending only the rows that changed.
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/gurujada/livetable_demo
-   cd livetable_demo
-   ```
+## Development
 
-2. **Install dependencies**
-   ```bash
-   mix setup
-   ```
-   This command will:
-   - Install Elixir dependencies
-   - Create and migrate the database
-   - Seed the database with sample data **(about 1.05M records)**
-
-3. **Start the Phoenix server**
-   ```bash
-   mix phx.server
-   ```
-   
-4. **Visit the application**
-   
-   Open [http://localhost:4000](http://localhost:4000) in your browser to explore the demos.
-
-
-## 📚 Documentation & Resources
-
-- **[LiveTable Documentation](https://hexdocs.pm/live_table/readme.html)** - Complete API reference and guides
-- **[LiveTable GitHub](https://github.com/gurujada/live_table)** - Source code and issue tracking
-
-## 🤝 Contributing
-
-Found a bug or want to improve the demos? We welcome contributions!
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-
-
-**Built with ❤️ using [LiveTable](https://hex.pm/packages/live_table)**
+Tidewave is included in development (`plug Tidewave` in the endpoint), at
+`http://localhost:4000/tidewave/mcp`.

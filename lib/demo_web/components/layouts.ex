@@ -9,7 +9,7 @@ defmodule DemoWeb.Layouts do
   """
   use DemoWeb, :html
 
-  defp live_table_version, do: "0.4.2"
+  def live_table_version, do: to_string(Application.spec(:live_table, :vsn))
 
   defp live_table_changelog_url,
     do: "https://github.com/gurujada/live_table/blob/master/CHANGELOG.md"
@@ -17,30 +17,36 @@ defmodule DemoWeb.Layouts do
   embed_templates("layouts/*")
 
   @demos [
-    %{path: "/contacts", name: "Contacts", number: 1, badge: "500", desc: "Basic table"},
-    %{path: "/tasks", name: "Tasks", number: 2, badge: "1K", desc: "Boolean filters"},
-    %{path: "/demo-employees", name: "Employees", number: 3, badge: "2K", desc: "Range filters"},
+    %{path: "/contacts", name: "Contacts", number: 1, badge: "500", desc: "Sorting and search"},
+    %{path: "/orders", name: "Orders", number: 2, badge: "5K", desc: "Every filter type"},
+    %{path: "/inventory", name: "Inventory", number: 3, badge: "10K", desc: "Joins and computed"},
+    %{path: "/leads", name: "Leads", number: 4, badge: "15K", desc: "Transformers"},
     %{
-      path: "/products-simple",
-      name: "Products",
-      number: 4,
-      badge: "3K",
-      desc: "Range + boolean"
+      path: "/projects",
+      name: "Projects",
+      number: 5,
+      badge: "5K",
+      desc: "Cards and bulk actions"
     },
-    %{path: "/orders", name: "Orders", number: 5, badge: "5K", desc: "Combined filters"},
-    %{path: "/invoices", name: "Invoices", number: 6, badge: "8K", desc: "Table joins"},
-    %{path: "/inventory", name: "Inventory", number: 7, badge: "10K", desc: "Computed fields"},
-    %{path: "/leads", name: "Leads", number: 8, badge: "15K", desc: "Advanced filters"},
-    %{path: "/projects", name: "Projects", number: 9, badge: "5K", desc: "Card mode"},
+    %{
+      path: "/store",
+      name: "Storefront",
+      number: 6,
+      badge: "360",
+      desc: "A shop, built on a table"
+    },
+    %{path: "/live", name: "Live orders", number: 7, badge: "Live", desc: "Real-time rows"},
     %{
       path: "/flagship",
       name: "1M Rows",
-      number: 10,
+      number: 8,
       badge: "1M",
-      desc: "All features",
+      desc: "Everything, with exports",
       featured: true
     }
   ]
+
+  def demos, do: @demos
 
   @doc """
   Renders the app layout with navbar navigation.
@@ -96,7 +102,7 @@ defmodule DemoWeb.Layouts do
                 <:trigger>
                   <span class="font-medium">Demos</span>
                 </:trigger>
-                <.dropdown_label>10 Progressive Demos</.dropdown_label>
+                <.dropdown_label>{length(@demos)} Demos</.dropdown_label>
                 <.dropdown_separator />
                 <.dropdown_item :for={demo <- @demos}>
                   <a
@@ -307,29 +313,141 @@ defmodule DemoWeb.Layouts do
   end
 
   @doc """
-  Renders a page header for demo pages.
+  The frame around every demo: its number, title and description, one thing to try, and the
+  demo with a small switch to its source.
   """
-  attr(:number, :integer, required: true, doc: "Demo number (1-10)")
-  attr(:title, :string, required: true, doc: "Page title")
-  attr(:rows, :string, required: true, doc: "Number of rows badge text")
-  attr(:description, :string, required: true, doc: "Page description")
-  attr(:featured, :boolean, default: false, doc: "Whether this is the featured flagship demo")
+  attr(:path, :string, required: true)
+  attr(:title, :string, required: true)
+  attr(:rows, :string, required: true)
+  attr(:try, :string, default: nil)
+  attr(:source, :map, required: true, doc: "the LiveView's highlighted source, file and length")
+  slot(:intro, required: true)
+  slot(:inner_block, required: true)
 
-  def page_header(assigns) do
+  def demo(assigns) do
+    index = Enum.find_index(@demos, &(&1.path == assigns.path))
+
+    assigns =
+      assign(assigns,
+        demo: Enum.at(@demos, index),
+        prev: index > 0 && Enum.at(@demos, index - 1),
+        next: Enum.at(@demos, index + 1)
+      )
+
     ~H"""
-    <div class="mb-8">
-      <div class="flex items-center gap-4 mb-3">
-        <span class={[
-          "demo-number flex items-center justify-center w-10 h-10 rounded-xl font-bold text-lg",
-          @featured &&
-            "bg-gradient-to-br from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/25",
-          !@featured && "bg-cyan-500/10 text-cyan-400"
-        ]}>
-          {@number}
-        </span>
-        <h1 class="text-3xl font-bold text-foreground">{@title}</h1>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="mb-6">
+        <div class="flex items-center gap-4 mb-3">
+          <span class={[
+            "demo-number flex items-center justify-center w-10 h-10 rounded-xl font-bold text-lg",
+            @demo[:featured] &&
+              "bg-gradient-to-br from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/25",
+            !@demo[:featured] && "bg-cyan-500/10 text-cyan-400"
+          ]}>
+            {@demo.number}
+          </span>
+          <h1 class="text-3xl font-bold text-foreground">{@title}</h1>
+          <span class="hidden sm:inline-flex rounded-md bg-muted/60 px-2 py-0.5 font-mono text-xs text-muted-foreground">
+            {@rows}
+          </span>
+        </div>
+        <p class="text-muted-foreground text-lg max-w-3xl">{render_slot(@intro)}</p>
+        <p :if={@try} class="mt-3 flex items-start gap-2 text-sm text-foreground/90">
+          <.icon name="lucide-sparkles" class="mt-0.5 size-4 shrink-0 text-cyan-400" />
+          {@try}
+        </p>
       </div>
-      <p class="text-muted-foreground text-lg">{@description}</p>
+
+      <div class="mb-2 flex justify-end">
+        <div class="inline-flex rounded-md border border-border/60 p-0.5 text-xs" role="tablist">
+          <button
+            id="tab-demo"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            class="rounded px-2.5 py-1 text-muted-foreground aria-selected:bg-muted aria-selected:text-foreground"
+            phx-click={show_tab("demo")}
+          >
+            Demo
+          </button>
+          <button
+            id="tab-code"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            class="inline-flex items-center gap-1 rounded px-2.5 py-1 text-muted-foreground aria-selected:bg-muted aria-selected:text-foreground"
+            phx-click={show_tab("code")}
+          >
+            <.icon name="lucide-code" class="size-3.5" /> Code
+          </button>
+        </div>
+      </div>
+
+      <div id="pane-demo">{render_slot(@inner_block)}</div>
+
+      <div id="pane-code" class="hidden">
+        <.code_window
+          file={@source.file}
+          href={"https://github.com/gurujada/livetable_demo/blob/master/#{@source.file}"}
+          lines={@source.lines}
+        >
+          {Phoenix.HTML.raw(@source.html)}
+        </.code_window>
+      </div>
+
+      <nav class="mt-12 flex justify-between gap-4 border-t border-border/50 pt-6 text-sm">
+        <a :if={@prev} href={@prev.path} class="group">
+          <span class="block text-muted-foreground">Previous</span>
+          <span class="font-semibold text-foreground group-hover:text-cyan-400">{@prev.name}</span>
+        </a>
+        <span :if={!@prev}></span>
+        <a :if={@next} href={@next.path} class="group text-right">
+          <span class="block text-muted-foreground">Next</span>
+          <span class="font-semibold text-foreground group-hover:text-cyan-400">{@next.name}</span>
+        </a>
+      </nav>
+    </div>
+    """
+  end
+
+  defp show_tab(tab) do
+    other = if tab == "demo", do: "code", else: "demo"
+
+    JS.show(to: "#pane-#{tab}")
+    |> JS.hide(to: "#pane-#{other}")
+    |> JS.set_attribute({"aria-selected", "true"}, to: "#tab-#{tab}")
+    |> JS.set_attribute({"aria-selected", "false"}, to: "#tab-#{other}")
+  end
+
+  @doc "A dark editor window around highlighted code, as on the home page."
+  attr(:file, :string, required: true)
+  attr(:lines, :integer, default: nil)
+  attr(:href, :string, default: nil, doc: "the full file, when the window shows an excerpt")
+  slot(:inner_block, required: true)
+
+  def code_window(assigns) do
+    ~H"""
+    <div class="code-window relative rounded-2xl overflow-hidden border border-border/50 bg-[#0d1117] shadow-2xl">
+      <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-white/[0.02]">
+        <div class="flex min-w-0 items-center gap-3">
+          <div class="flex shrink-0 gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-[#ff5f56]" />
+            <div class="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+            <div class="w-3 h-3 rounded-full bg-[#27ca40]" />
+          </div>
+          <span class="truncate text-xs text-gray-500 font-mono">{@file}</span>
+        </div>
+        <a
+          :if={@href}
+          href={@href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="shrink-0 text-xs text-gray-400 hover:text-cyan-400"
+        >
+          Full file, {@lines} lines
+        </a>
+      </div>
+      <div class="p-6 overflow-x-auto">{render_slot(@inner_block)}</div>
     </div>
     """
   end
