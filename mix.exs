@@ -49,8 +49,8 @@ defmodule Demo.MixProject do
 
       # UI Libraries
       {:sutra_ui, "~> 0.4.0", override: true},
-      # Local checkout while LiveTable 0.5 is unpublished; switch back to git or Hex on release.
-      {:live_table, path: "../live_table", override: true},
+      # LiveTable 0.5 from GitHub (the commit in mix.lock) until it is published to Hex.
+      {:live_table, git: "git@github.com:gurujada/live_table.git", branch: "master", override: true},
 
       # Utilities
       {:swoosh, "~> 1.16"},
