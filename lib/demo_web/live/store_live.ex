@@ -27,10 +27,7 @@ defmodule DemoWeb.StoreLive do
           unit: "₹",
           min: 0,
           max: 150_000,
-          step: 5000,
-          pips: true,
-          pips_mode: "values",
-          pips_values: [0, 50_000, 100_000, 150_000]
+          step: 1
         }),
       in_stock:
         Boolean.new(:in_stock, "in_stock", %{
@@ -93,13 +90,29 @@ defmodule DemoWeb.StoreLive do
         </div>
       </fieldset>
 
-      <div class="pb-6">
-        {LiveTable.Range.render(%{
-          key: :price,
-          filter: @filters[:price],
-          applied_filters: @options["filters"]
-        })}
-      </div>
+      <fieldset>
+        <legend class="mb-2 text-sm font-semibold">Price (₹)</legend>
+        <div class="grid grid-cols-2 gap-2">
+          <input
+            type="number"
+            name="filters[price][min]"
+            value={price_bound(@options, :current_min, :default_min)}
+            placeholder="Min"
+            min="0"
+            phx-debounce="500"
+            class="input w-full min-w-0"
+          />
+          <input
+            type="number"
+            name="filters[price][max]"
+            value={price_bound(@options, :current_max, :default_max)}
+            placeholder="Max"
+            min="0"
+            phx-debounce="500"
+            class="input w-full min-w-0"
+          />
+        </div>
+      </fieldset>
 
       <fieldset class="space-y-2">
         <legend class="mb-2 text-sm font-semibold">Show only</legend>
@@ -141,9 +154,26 @@ defmodule DemoWeb.StoreLive do
           </button>
         </div>
       </fieldset>
+
+      <button
+        :if={@active_filters > 0}
+        type="button"
+        phx-click="sort"
+        phx-value-clear_filters="true"
+        class="text-sm text-muted-foreground underline hover:text-foreground"
+      >
+        Clear {@active_filters} {if @active_filters == 1, do: "filter", else: "filters"}
+      </button>
     </form>
     """
   end
+
+  # An empty box means no bound; a bound at its default is shown as empty.
+  defp price_bound(%{"filters" => %{price: %Range{options: options}}}, current, default) do
+    if options[current] != options[default], do: options[current]
+  end
+
+  defp price_bound(_options, _current, _default), do: nil
 
   defp selected(options, key) do
     case options["filters"][key] do
